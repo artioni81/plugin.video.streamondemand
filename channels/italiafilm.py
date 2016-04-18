@@ -148,7 +148,7 @@ def peliculas(item):
                     fanart=fanart if fanart != "" else poster,
                     extrameta=extrameta,
                     plot=str(plot),
-                    action="episodios' if item.extra == 'serie' else 'findvideos",
+                    action='episodios' if item.extra == 'serie' else 'findvideos',
                     title="[COLOR azure]" + title + "[/COLOR]",
                     url=url,
                     fulltitle=title,
