@@ -24,7 +24,6 @@ __language__ = "IT"
 
 host = "http://mondolunatico.org"
 
-#captcha_url = 'http://www.keeplinks.eu/basiccaptcha/securimage_show.php?sid='
 captcha_url = '%s/pass/CaptchaSecurityImages.php?width=100&height=40&characters=5' % host
 
 headers = [
@@ -182,11 +181,35 @@ def HomePage(item):
     import xbmc
     xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.streamondemand)")
 
+
 def findvideos(item):
     logger.info("streamondemand.mondolunatico findvideos")
 
     # Descarga la página
     data = scrapertools.cache_page(item.url, headers=headers)
+
+    ### robalo fix obfuscator - start ###
+
+    if 'keeplinks.eu' in data:
+        import time
+
+        keeplinks = "http://www.keeplinks.eu/p92/"
+        id = scrapertools.get_match(data, 'href="' + keeplinks + '([^"]+)"')
+
+        _headers = [
+            ['Host', 'www.keeplinks.eu'],
+            ['User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0'],
+            ['Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'],
+            ['Accept-Language', 'es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3'],
+            ['Cookie', 'flag[' + id + ']=1; noadvtday=0; nopopatall=' + str(time.time())],
+            ['Accept-Encoding', 'gzip, deflate'],
+            ['Connection', 'keep-alive']
+        ]
+
+        data = scrapertools.cache_page( keeplinks + id, headers=_headers )
+        data = str( scrapertools.find_multiple_matches(data, '</lable><a href="([^"]+)" target="_blank"') )
+
+    ### robalo fix obfuscator - end ###
 
     itemlist = servertools.find_video_items(data=data)
     for videoitem in itemlist:

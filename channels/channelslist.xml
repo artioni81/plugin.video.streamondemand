@@ -696,10 +696,10 @@
     </update_url>
     <active>true</active>
     <include_in_global_search>false</include_in_global_search>
-    <version>9</version>
+    <version>10</version>
     <adult>false</adult>
-    <date>03/04/2016</date>
-    <changes>Fix TMDB integration</changes>
+    <date>20/04/2016</date>
+    <changes>robalo - fix obfuscator</changes>
     <categories>
         <category>movie</category>
     </categories>
