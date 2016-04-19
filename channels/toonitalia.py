@@ -177,9 +177,10 @@ def episodi(item):
 
     # Downloads page
     data = scrapertools.cache_page(item.url)
+    data = scrapertools.find_single_match(data, '<div id="tab-tab(.*?)</body>')
     # Extracts the entries
-    #patron = '<a.*?href="([^"]+)".*?target="_blank">([^"]+)</a>'
-    patron = '<a href="([^"]+)"[^>]+>([^"]+)</a><br />'
+    patron = '<a.*?href="([^"]+)".*?target="_blank">([^"]+)</a><'
+    #patron = '<a href="([^"]+)"[^>]+>([^"]+)</a><br />'
     matches = re.compile(patron, re.DOTALL).findall(data)
 
     for scrapedurl, scrapedtitle in matches:
@@ -287,4 +288,3 @@ def info(title):
            return plot, fanart, poster, extrameta
     except:
         pass
-
