@@ -25,8 +25,7 @@ host = "http://toonitalia.altervista.org/"
 
 headers = [
     ['User-Agent', 'Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0'],
-    ['Accept-Encoding', 'gzip, deflate'],
-    ['Referer', host]
+    ['Accept-Encoding', 'gzip, deflate']
 ]
 
 
@@ -234,10 +233,15 @@ def findvid(item):
 
     # Downloads page
     data = item.url
-    if 'http://bc.vc/' in data:
+    if any( [data == 'http://bc.vc/', data == 'http://adfoc.us/'] ):
+    #if 'http://bc.vc/' in data:
         headers.append(['Referer', data])
         data = scrapertools.cache_page(data, headers=headers)
-        data = data[20:]
+        start = data.find('www')
+        end = data.find('.html', start)
+        data = data[start:end]
+        #data = data[20:]
+
     itemlist = servertools.find_video_items(data=data)
     for videoitem in itemlist:
         videoitem.title = item.title + videoitem.title
