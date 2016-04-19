@@ -178,7 +178,8 @@ def episodi(item):
     # Downloads page
     data = scrapertools.cache_page(item.url)
     # Extracts the entries
-    patron = '<a.*?href="([^"]+)".*?target="_blank">([^"]+)</a>'
+    #patron = '<a.*?href="([^"]+)".*?target="_blank">([^"]+)</a>'
+    patron = '<a href="([^"]+)"[^>]+>([^"]+)</a><br />'
     matches = re.compile(patron, re.DOTALL).findall(data)
 
     for scrapedurl, scrapedtitle in matches:

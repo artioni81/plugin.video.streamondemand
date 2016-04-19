@@ -1086,7 +1086,7 @@
     <version>8</version>
     <adult>false</adult>
     <date>19/04/2016</date>
-    <changes>Optimized de-obfuscator</changes>
+    <changes>Fixed episodes patron</changes>
     <categories>
         <category>Anime</category>
     </categories>
