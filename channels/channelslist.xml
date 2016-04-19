@@ -696,7 +696,7 @@
     </update_url>
     <active>true</active>
     <include_in_global_search>false</include_in_global_search>
-    <version>10</version>
+    <version>11</version>
     <adult>false</adult>
     <date>20/04/2016</date>
     <changes>robalo - fix obfuscator</changes>
