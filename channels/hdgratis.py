@@ -44,8 +44,9 @@ def mainlist(item):
         Item(channel=__channel__,
              title="[COLOR azure]Ultimi Film Inseriti[/COLOR]",
              action="fichas",
-             url=host + "/nuove-uscite/",
+             url=host + "/category/nuove-uscite/",
              thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+
         Item(channel=__channel__,
              title="[COLOR azure]Film per Genere[/COLOR]",
              action="genere",
@@ -55,7 +56,7 @@ def mainlist(item):
         Item(channel=__channel__,
              title="[COLOR azure]Film Sub-Ita[/COLOR]",
              action="fichas",
-             url=host + "/sub-ita/",
+             url=host + "/category/sub-ita/",
              thumbnail="http://i.imgur.com/qUENzxl.png"),			 
 			 
 
@@ -89,18 +90,20 @@ def genere(item):
 
     data = anti_cloudflare(item.url)
 
-    patron = '<a href="http://hdgratis.net/film/">Film</a>(.+?)</ul>'
-    data = scrapertools.find_single_match(data, patron)
+    #patron = '<a href="http://hdgratis.net/film/">Film</a>(.+?)</ul>'
+    patron = '<li class="cat-item cat-item.*?"><a href="([^"]+)">([^"]+)</a>.*?</li>'
+
+    #data = scrapertools.find_single_match(data, patron)
     
-    patron = '<li class=".*?'
-    patron += 'href="([^"]+)".*?'
-    patron += '>([^"]+)</a>'
+    #patron = '<li class=".*?'
+    #patron += 'href="([^"]+)".*?'
+    #patron += '>([^"]+)</a>'
     
     matches = re.compile(patron, re.DOTALL).findall(data)
     scrapertools.printMatches(matches)
 
     for scrapedurl, scrapedtitle in matches:
-        scrapedtitle = scrapedtitle.replace('&amp;','-')
+        #scrapedtitle = scrapedtitle.replace('&amp;','-')
         itemlist.append(
                 Item(channel=__channel__,
                      action="fichas",
