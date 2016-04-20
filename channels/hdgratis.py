@@ -38,7 +38,7 @@ def mainlist(item):
         Item(channel=__channel__,
              title="[COLOR azure]Al Cinema[/COLOR]",
              action="fichas",
-             url=host + "/in-sala/",
+             url=host + "/category/in-sala/",
              thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
 
         Item(channel=__channel__,
@@ -260,9 +260,10 @@ def fichas(item):
                     show=scrapedtitle))
 
     # Paginación
-	next_page = re.compile('<link rel="next" href="(.+?)"/>', re.DOTALL).findall(data)
-	for page in next_page:
-		next_page = page
+    next_page = re.compile('<link rel="next" href="(.+?)"/>', re.DOTALL).findall(data)
+    for page in next_page:
+        next_page = page
+        
     if next_page != "":
         itemlist.append(
                 Item(channel=__channel__,
