@@ -353,10 +353,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/filmsenzalimiti.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>9</version>
+    <version>10</version>
     <adult>false</adult>
-    <date>04/04/2015</date>
-    <changes>Added TMDB</changes>
+    <date>21/04/2015</date>
+    <changes>Added TMDB distinction to test</changes>
     <categories>
         <category>movie</category>
     </categories>
