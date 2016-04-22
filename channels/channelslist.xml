@@ -114,10 +114,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/casacinema.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>12</version>
+    <version>13</version>
     <adult>false</adult>
     <date>22/04/2016</date>
-    <changes>Add TMDB tv</changes>
+    <changes>Fixes for serie tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
