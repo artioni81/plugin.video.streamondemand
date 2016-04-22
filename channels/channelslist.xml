@@ -114,10 +114,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/casacinema.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>11</version>
+    <version>12</version>
     <adult>false</adult>
-    <date>03/04/2016</date>
-    <changes>fix TMDB integration</changes>
+    <date>22/04/2016</date>
+    <changes>Add TMDB tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -171,10 +171,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/cinemalibero.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>7</version>
+    <version>8</version>
     <adult>false</adult>
-    <date>08/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>22/04/2016</date>
+    <changes>Add TMDB tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
