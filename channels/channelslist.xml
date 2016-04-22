@@ -370,10 +370,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/filmstream.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>13</version>
+    <version>14</version>
     <adult>false</adult>
-    <date>11/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>22/04/2016</date>
+    <changes>Added TMDB tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -388,10 +388,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/filmstreampw.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>11</version>
+    <version>12</version>
     <adult>false</adult>
-    <date>09/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>22/04/2016</date>
+    <changes>Added TMDB tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
