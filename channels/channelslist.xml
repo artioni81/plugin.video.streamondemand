@@ -534,7 +534,7 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/instreaminginfo.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>5</version>
+    <version>6</version>
     <adult>false</adult>
     <date>22/04/2016</date>
     <changes>Web address changes</changes>
