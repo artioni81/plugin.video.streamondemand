@@ -166,8 +166,7 @@ def peliculasrobalo(item):
                     url=scrapedurl,
                     thumbnail=scrapedthumbnail,
                     plot=scrapedplot,
-                    viewmode="movie_with_plot",
-                    fanart=scrapedthumbnail))
+                    viewmode="movie_with_plot"))
 
     # Next page mark
     try:
@@ -237,8 +236,7 @@ def peliculas(item):
                  url=scrapedurl,
                  thumbnail=scrapedthumbnail,
                  plot=scrapedplot,
-                 viewmode="movie_with_plot",
-                 fanart=scrapedthumbnail))
+                 viewmode="movie_with_plot"))
 
     # Next page mark
     try:
@@ -420,15 +418,33 @@ def listserie(item):
             "title=[" + scrapedtitle + "], url=[" + scrapedurl + "], thumbnail=[" + scrapedthumbnail + "]")
 
         # Añade al listado de XBMC
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="episodios",
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail=scrapedthumbnail,
-                 plot=scrapedplot))
+        tmdbtitle1 = scrapedtitle.split("[")[0]
+        tmdbtitle = tmdbtitle1.split("(")[0]
+        try:
+           plot, fanart, poster, extrameta = info_tv(tmdbtitle)
+
+           itemlist.append(
+               Item(channel=__channel__,
+                    thumbnail=poster,
+                    fanart=fanart if fanart != "" else poster,
+                    extrameta=extrameta,
+                    plot=str(plot),
+                    action="episodios",
+                    title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                    url=scrapedurl,
+                    fulltitle=scrapedtitle,
+                    show=scrapedtitle,
+                    folder=True))
+        except:
+           itemlist.append(
+               Item(channel=__channel__,
+                    action="episodios",
+                    fulltitle=scrapedtitle,
+                    show=scrapedtitle,
+                    title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                    url=scrapedurl,
+                    thumbnail=scrapedthumbnail,
+                    plot=scrapedplot))
 
     # Put the next page mark
     try:
@@ -975,6 +991,24 @@ def info(title):
     try:
         from core.tmdb import Tmdb
         oTmdb= Tmdb(texto_buscado=title, tipo= "movie", include_adult="false", idioma_busqueda="it")
+        count = 0
+        if oTmdb.total_results > 0:
+           extrameta = {}
+           extrameta["Year"] = oTmdb.result["release_date"][:4]
+           extrameta["Genre"] = ", ".join(oTmdb.result["genres"])
+           extrameta["Rating"] = float(oTmdb.result["vote_average"])
+           fanart=oTmdb.get_backdrop()
+           poster=oTmdb.get_poster()
+           plot=oTmdb.get_sinopsis()
+           return plot, fanart, poster, extrameta
+    except:
+        pass	
+
+def info_tv(title):
+    logger.info("streamondemand.cineblog01 info")
+    try:
+        from core.tmdb import Tmdb
+        oTmdb= Tmdb(texto_buscado=title, tipo= "tv", include_adult="false", idioma_busqueda="it")
         count = 0
         if oTmdb.total_results > 0:
            extrameta = {}

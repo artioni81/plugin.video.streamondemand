@@ -151,10 +151,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/cineblog01.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>29</version>
+    <version>30</version>
     <adult>false</adult>
-    <date>05/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>23/04/2016</date>
+    <changes>Added TMDB tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
