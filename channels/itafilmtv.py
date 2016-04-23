@@ -182,14 +182,33 @@ def serietv(item):
     for scrapedurl, scrapedthumbnail, scrapedtitle in matches:
         scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
 
-        itemlist.append(
-                Item(channel=__channel__,
-                     action=action,
-                     title=scrapedtitle,
-                     url=scrapedurl,
-                     thumbnail=urlparse.urljoin(host, scrapedthumbnail),
-                     fulltitle=scrapedtitle,
-                     show=scrapedtitle))
+        tmdbtitle1 = scrapedtitle.split("[")[0]
+        tmdbtitle = tmdbtitle1.split("(")[0]
+
+        try:
+           plot, fanart, poster, extrameta = info_tv(tmdbtitle)
+
+           itemlist.append(
+               Item(channel=__channel__,
+                    thumbnail=poster,
+                    fanart=fanart if fanart != "" else poster,
+                    extrameta=extrameta,
+                    plot=str(plot),
+                    action=action,
+                    title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                    url=scrapedurl,
+                    fulltitle=scrapedtitle,
+                    show=scrapedtitle,
+                    folder=True))
+        except:
+           itemlist.append(
+               Item(channel=__channel__,
+                    action=action,
+                    title=scrapedtitle,
+                    url=scrapedurl,
+                    thumbnail=urlparse.urljoin(host, scrapedthumbnail),
+                    fulltitle=scrapedtitle,
+                    show=scrapedtitle))
 
     # Paginación
     next_page = scrapertools.find_single_match(data, '<span>\d+</span> <a href="([^"]+)">')
@@ -400,6 +419,24 @@ def info(title):
     try:
         from core.tmdb import Tmdb
         oTmdb= Tmdb(texto_buscado=title, tipo= "movie", include_adult="false", idioma_busqueda="it")
+        count = 0
+        if oTmdb.total_results > 0:
+           extrameta = {}
+           extrameta["Year"] = oTmdb.result["release_date"][:4]
+           extrameta["Genre"] = ", ".join(oTmdb.result["genres"])
+           extrameta["Rating"] = float(oTmdb.result["vote_average"])
+           fanart=oTmdb.get_backdrop()
+           poster=oTmdb.get_poster()
+           plot=oTmdb.get_sinopsis()
+           return plot, fanart, poster, extrameta
+    except:
+        pass	
+
+def info_tv(title):
+    logger.info("streamondemand.itafilmtv info")
+    try:
+        from core.tmdb import Tmdb
+        oTmdb= Tmdb(texto_buscado=title, tipo= "tv", include_adult="false", idioma_busqueda="it")
         count = 0
         if oTmdb.total_results > 0:
            extrameta = {}

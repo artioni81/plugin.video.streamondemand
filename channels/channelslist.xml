@@ -114,10 +114,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/casacinema.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>13</version>
+    <version>14</version>
     <adult>false</adult>
-    <date>22/04/2016</date>
-    <changes>Fixes for serie tv</changes>
+    <date>23/04/2016</date>
+    <changes>Add TMDB tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -334,10 +334,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/filmpertutti.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>13</version>
+    <version>16</version>
     <adult>false</adult>
-    <date>09/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>23/04/2016</date>
+    <changes>Added TMDB tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -426,10 +426,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/guardarefilm.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>10</version>
+    <version>11</version>
     <adult>false</adult>
-    <date>09/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>23/04/2016</date>
+    <changes>Added TMDB tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -551,10 +551,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/itafilmtv.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>9</version>
+    <version>10</version>
     <adult>false</adult>
-    <date>09/04/2016</date>
-    <changes>Add TMDB</changes>
+    <date>23/04/2016</date>
+    <changes>Add TMDB tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -571,10 +571,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/italiafilm.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>14</version>
+    <version>15</version>
     <adult>false</adult>
-    <date>18/04/2016</date>
-    <changes>Fix</changes>
+    <date>23/04/2016</date>
+    <changes>Add TMDB tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
