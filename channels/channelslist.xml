@@ -1028,12 +1028,13 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/tantifilm.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>9</version>
+    <version>10</version>
     <adult>false</adult>
-    <date>19/12/2015</date>
-    <changes>Added Home</changes>
+    <date>23/04/2015</date>
+    <changes>Add TMDB</changes>
     <categories>
         <category>movie</category>
+        <category>serie</category>
     </categories>
 </channel>
 
