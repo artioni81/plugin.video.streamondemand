@@ -812,6 +812,21 @@
     </categories>
 </channel>
 
+<channel>
+    <id>programmazione</id>
+    <name>Corsi Programmazione</name>
+    <language>it</language>
+    <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/programmazione.py</update_url>
+    <active>true</active>
+    <include_in_global_search>true</include_in_global_search>
+    <version>1</version>
+    <adult>false</adult>
+    <date>26/04/2016</date>
+    <changes>Added new channel</changes>
+    <categories>
+        <category>Didattica</category>
+    </categories>
+</channel>
 
 <channel>
     <id>ricettevideo</id>
