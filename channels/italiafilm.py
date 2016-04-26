@@ -104,8 +104,10 @@ def search(item, texto):
 
     try:
         if item.extra == "serie":
+            item.url = host + "/?s=" + texto
             return peliculas_tv(item)
         else:
+            item.url = host + "/?s=" + texto
             return peliculas(item)
     # Se captura la excepcion, para no interrumpir al buscador global si un canal falla
     except:
