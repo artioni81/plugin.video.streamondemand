@@ -140,7 +140,7 @@ def peliculas(item):
                     fanart=fanart if fanart != "" else poster,
                     extrameta=extrameta,
                     plot=str(plot),
-                    action="episodios' if item.extra == 'serie' else 'findvideos",
+                    action="episodios" if item.extra == "serie" else "findvideos",
                     title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
                     url=scrapedurl if item.extra == 'serie' else importio_url + scrapedurl,
                     fulltitle=scrapedtitle,
@@ -149,11 +149,11 @@ def peliculas(item):
         except:
            itemlist.append(
                Item(channel=__channel__,
-                    action='episodios' if item.extra == 'serie' else 'findvideos',
+                    action="episodios" if item.extra == "serie" else "findvideos",
                     fulltitle=scrapedtitle,
                     show=scrapedtitle,
                     title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                    url=scrapedurl if item.extra == 'serie' else importio_url + scrapedurl,
+                    url=scrapedurl if item.extra == "serie" else importio_url + scrapedurl,
                     thumbnail=scrapedthumbnail,
                     plot=scrapedplot,
                     folder=True))
