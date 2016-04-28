@@ -7,6 +7,7 @@
 import re
 import sys
 import urllib2
+import urlparse
 
 from core import config
 from core import logger
@@ -157,85 +158,74 @@ def fichas(item):
 
     return itemlist
 
-
 def episodios(item):
     logger.info("[seriehd.py] episodios")
-
     itemlist = []
 
-    data = anti_cloudflare(item.url)
+    data = anti_cloudflare( item.url )
 
-    patron = '<select name="stagione" id="selSt">(.*?)</select>'
-    seasons_data = scrapertools.find_single_match(data, patron)
+    patron = r'<iframe width=".+?" height=".+?" src="([^"]+)" allowfullscreen frameborder="0">'
+    url = scrapertools.find_single_match(data, patron).replace("?seriehd","")
 
-    patron = r'data-stagione="(\d+)"'
-    seasons = re.compile(patron, re.DOTALL).findall(seasons_data)
+    data = scrapertools.cache_page(url).replace('\n', '').replace(' class="active"', '')
 
-    for scrapedseason in seasons:
+    section_stagione = scrapertools.find_single_match( data, '<h3>STAGIONE</h3><ul>(.*?)</ul>' )
+    patron = '<li[^>]+><a href="([^"]+)">(\d)<'
+    seasons = re.compile(patron, re.DOTALL).findall(section_stagione)
 
-        patron = '<div class="list[^"]+" data-stagione="%s">(.*?)</div>' % scrapedseason
-        episodes_data = scrapertools.find_single_match(data, patron)
+    for scrapedseason_url, scrapedseason in seasons:
 
-        patron = r'data-id="(\d+)"'
-        episodes = re.compile(patron, re.DOTALL).findall(episodes_data)
+        season_url = urlparse.urljoin( url, scrapedseason_url )
+        data = scrapertools.cache_page( season_url ).replace('\n', '').replace(' class="active"', '')
 
-        for scrapedepisode in episodes:
+        section_episodio = scrapertools.find_single_match( data, '<h3>EPISODIO</h3><ul>(.*?)</ul>' )
+        patron = '<li><a href="([^"]+)">(\d+)<'
+        episodes = re.compile(patron, re.DOTALL).findall(section_episodio)
 
-            season = str(int(scrapedseason) + 1)
-            episode = str(int(scrapedepisode) + 1)
-            if len(episode) == 1: episode = "0" + episode
+        for scrapedepisode_url, scrapedepisode in episodes:
 
-            title = season + "x" + episode
+            episode_url = urlparse.urljoin( url, scrapedepisode_url )
 
-            # Le pasamos a 'findvideos' la url con dos partes divididas por el caracter "?"
-            # [host+path]?[argumentos]?[Referer]
-            url = "%s?st_num=%s&pt_num=%s?%s" % (item.url, scrapedseason, scrapedepisode, item.url)
+            title = scrapedseason + "x" + scrapedepisode.zfill(2)
 
             itemlist.append(
-                    Item(channel=__channel__,
-                         action="findvideos",
-                         title=title,
-                         url=url,
-                         fulltitle=item.fulltitle,
-                         show=item.show,
-                         thumbnail=item.thumbnail))
+                   Item(channel=__channel__,
+                        action="findvideos",
+                        title=title,
+                        url=episode_url,
+                        fulltitle=item.fulltitle,
+                        show=item.show,
+                        thumbnail=item.thumbnail))
 
     if config.get_library_support() and len(itemlist) != 0:
         itemlist.append(
-                Item(channel=__channel__,
-                     title=item.title,
-                     url=item.url,
-                     action="add_serie_to_library",
-                     extra="episodios",
-                     show=item.show))
+               Item(channel=__channel__,
+                    title=item.title + " (Add Serie to Library)",
+                    url=item.url,
+                    action="add_serie_to_library",
+                    extra="episodios",
+                    show=item.show))
         itemlist.append(
-                Item(channel=item.channel,
-                     title="Scarica tutti gli episodi della serie",
-                     url=item.url,
-                     action="download_all_episodes",
-                     extra="episodios",
-                     show=item.show))
+               Item(channel=item.channel,
+                    title="Scarica tutti gli episodi della serie",
+                    url=item.url,
+                    action="download_all_episodes",
+                    extra="episodios",
+                    show=item.show))
 
     return itemlist
 
-
 def findvideos(item):
     logger.info("[seriehd.py] findvideos")
-
     itemlist = []
 
-    url = item.url.split('?')[0]
-    post = item.url.split('?')[1]
-    referer = item.url.split('?')[2]
+    data = anti_cloudflare( item.url ).replace('\n', '')
 
-    headers.append(['Referer', referer])
+    patron = '<iframe id="iframeVid" width=".+?" height=".+?" src="([^"]+)" allowfullscreen=""></iframe>'
+    url = scrapertools.find_single_match( data, patron )
 
-    data = scrapertools.cache_page(url, post=post, headers=headers)
 
-    patron = '<iframe id="iframeVid" width="100%" height="500px" src="([^"]+)" allowfullscreen></iframe>'
-    url = scrapertools.find_single_match(data, patron)
-
-    if 'hdpass.link' in url:
+    if 'hdpass.xyz' in url:
         data = scrapertools.cache_page(url, headers=headers)
 
         start = data.find('<ul id="mirrors">')
@@ -244,40 +234,24 @@ def findvideos(item):
 
         patron = '<form method="get" action="">\s*<input type="hidden" name="([^"]+)" value="([^"]+)"/>\s*<input type="hidden" name="([^"]+)" value="([^"]+)"/>\s*<input type="hidden" name="([^"]+)" value="([^"]+)"/><input type="hidden" name="([^"]+)" value="([^"]+)"/> <input type="submit" class="[^"]*" name="([^"]+)" value="([^"]+)"/>\s*</form>'
 
-        #patron = '<form method="get" action="">\s*'
-        #patron += '<input type="hidden" name="([^"]+)" value="([^"]+)"/>\s*'
-        #patron += '<input type="hidden" name="([^"]+)" value="([^"]+)"/>\s*'
-        #patron += '(?:<input type="hidden" name="([^"]+)" value="([^"]+)"/>\s*)?'
-        #patron += '<input type="submit" class="[^"]*" name="([^"]+)" value="([^"]+)"/>\s*'
-        #patron += '</form>'
-
-        html = []
         for name1, val1, name2, val2, name3, val3, name4, val4, name5, val5  in re.compile(patron).findall(data):
             if name3 == '' and val3 == '':
                 get_data = '%s=%s&%s=%s&%s=%s&%s=%s' % (name1, val1, name2, val2, name4, val4, name5, val5)
             else:
                 get_data = '%s=%s&%s=%s&%s=%s&%s=%s&%s=%s' % (name1, val1, name2, val2, name3, val3, name4, val4, name5, val5)
-            tmp_data = scrapertools.cache_page('http://hdpass.link/film.php?' + get_data, headers=headers)
-            patron = r'; eval\(unescape\("(.*?)",(\[".*?;"\]),(\[".*?\])\)\);'
-            try:
-                [(par1, par2, par3)] = re.compile(patron, re.DOTALL).findall(tmp_data)
-            except:
-                patron = r'<input type="hidden" name="urlEmbed" data-mirror="([^"]+)" id="urlEmbed" value="([^"]+)"/>'
-                for media_label, media_url in re.compile(patron).findall(tmp_data):
-                    media_label=scrapertools.decodeHtmlentities(media_label.replace("hosting","hdload"))
-                    itemlist.append(
-                            Item(server=media_label,
-                                 action="play",
-                                 title=' - [Player]' if media_label == '' else ' - [Player @%s]' % media_label,
-                                 url=media_url,
-                                 folder=False))
-                continue
+            tmp_data = scrapertools.cache_page('http://hdpass.xyz/film.php?' + get_data, headers=headers)
+            patron = r'<input type="hidden" name="urlEmbed" data-mirror="([^"]+)" id="urlEmbed" value="([^"]+)"/>'
+            for media_label, media_url in re.compile(patron).findall(tmp_data):
+                media_label=scrapertools.decodeHtmlentities(media_label.replace("hosting","hdload"))
 
-            par2 = eval(par2, {'__builtins__': None}, {})
-            par3 = eval(par3, {'__builtins__': None}, {})
-            tmp_data = unescape(par1, par2, par3)
-            html.append(tmp_data.replace(r'\/', '/'))
-        url = ''.join(html)
+                itemlist.append(
+                        Item(server=media_label,
+                             action="play",
+                             title=' - [Player]' if media_label == '' else ' - [Player @%s]' % media_label,
+                             url=media_url,
+                             folder=False))
+
+    #data = scrapertools.cache_page( url )
 
     itemlist.extend(servertools.find_video_items(data=url))
 
