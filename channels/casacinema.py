@@ -316,7 +316,7 @@ def episodios(item):
         itemlist.append(
             Item(channel=__channel__,
                  action="find_video_items",
-                 title=scrapedtitle + scrapedserver,
+                 title="[COLOR red]"+scrapedtitle+" [/COLOR]"+"[COLOR azure]"+item.fulltitle+" [/COLOR]"+"[COLOR orange] ["+scrapedserver+"][/COLOR]",
                  url=scrapedurl,
                  #data=scrapedurl,
                  thumbnail=item.thumbnail,

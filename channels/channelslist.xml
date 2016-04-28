@@ -114,10 +114,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/casacinema.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>14</version>
+    <version>15</version>
     <adult>false</adult>
-    <date>23/04/2016</date>
-    <changes>Add TMDB tv</changes>
+    <date>28/04/2016</date>
+    <changes>Fix Serie Tv</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -499,10 +499,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/hdstreamingit.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>11</version>
+    <version>13</version>
     <adult>false</adult>
-    <date>05/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>28/04/2016</date>
+    <changes>Fixes + Added "serie tv animate"</changes>
     <categories>
         <category>movie</category>
     </categories>
@@ -900,10 +900,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/seriehd.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>21</version>
+    <version>22</version>
     <adult>false</adult>
-    <date>09/04/2016</date>
-    <changes>Add TMDB</changes>
+    <date>28/04/2016</date>
+    <changes>Fix by robalo</changes>
     <categories>
         <category>serie</category>
     </categories>
