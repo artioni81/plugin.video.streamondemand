@@ -216,51 +216,43 @@ def episodios(item):
     return itemlist
 
 def findvideos(item):
-    logger.info("[seriehd.py] findvideos")
+    logger.info("[seriehd1.py] findvideos")
     itemlist = []
 
-    data = anti_cloudflare( item.url ).replace('\n', '')
+    data = scrapertools.cache_page( item.url ).replace('\n', '')
 
-    patron = '<iframe id="iframeVid" width=".+?" height=".+?" src="([^"]+)" allowfullscreen=""></iframe>'
-    url = scrapertools.find_single_match( data, patron )
-
+    patron = '<iframe id="iframeVid" width=".+?" height=".+?" src="([^"]+)" allowfullscreen="">'
+    url = scrapertools.find_single_match(data, patron)
 
     if 'hdpass.xyz' in url:
-        data = scrapertools.cache_page(url, headers=headers)
+        data = scrapertools.cache_page(url, headers=headers).replace('\n', '').replace('> <', '><')
 
-        start = data.find('<ul id="mirrors">')
-        end = data.find('</ul>', start)
-        data = data[start:end]
-
-        patron = '<form method="get" action="">\s*<input type="hidden" name="([^"]+)" value="([^"]+)"/>\s*<input type="hidden" name="([^"]+)" value="([^"]+)"/>\s*<input type="hidden" name="([^"]+)" value="([^"]+)"/><input type="hidden" name="([^"]+)" value="([^"]+)"/> <input type="submit" class="[^"]*" name="([^"]+)" value="([^"]+)"/>\s*</form>'
+        patron = '<form method="get" action="">'
+        patron+= '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
+        patron+= '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
+        patron+= '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
+        patron+= '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
+        patron+= '<input type="submit" class="[^"]*" name="([^"]*)" value="([^"]*)"/>'
+        patron+= '</form>'
 
         for name1, val1, name2, val2, name3, val3, name4, val4, name5, val5  in re.compile(patron).findall(data):
-            if name3 == '' and val3 == '':
-                get_data = '%s=%s&%s=%s&%s=%s&%s=%s' % (name1, val1, name2, val2, name4, val4, name5, val5)
-            else:
-                get_data = '%s=%s&%s=%s&%s=%s&%s=%s&%s=%s' % (name1, val1, name2, val2, name3, val3, name4, val4, name5, val5)
+
+            get_data = '%s=%s&%s=%s&%s=%s&%s=%s&%s=%s' % (name1, val1, name2, val2, name3, val3, name4, val4, name5, val5)
+
             tmp_data = scrapertools.cache_page('http://hdpass.xyz/film.php?' + get_data, headers=headers)
+
             patron = r'<input type="hidden" name="urlEmbed" data-mirror="([^"]+)" id="urlEmbed" value="([^"]+)"/>'
+
             for media_label, media_url in re.compile(patron).findall(tmp_data):
                 media_label=scrapertools.decodeHtmlentities(media_label.replace("hosting","hdload"))
 
                 itemlist.append(
-                        Item(server=media_label,
+                        Item(channel=__channel__,
+                             server=media_label,
                              action="play",
                              title=' - [Player]' if media_label == '' else ' - [Player @%s]' % media_label,
                              url=media_url,
                              folder=False))
-
-    #data = scrapertools.cache_page( url )
-
-    itemlist.extend(servertools.find_video_items(data=url))
-
-    for videoitem in itemlist:
-        videoitem.title = item.title + videoitem.title
-        videoitem.show = item.show
-        videoitem.fulltitle = item.fulltitle
-        videoitem.thumbnail = item.thumbnail
-        videoitem.channel = __channel__
 
     return itemlist
 
@@ -274,10 +266,12 @@ def anti_cloudflare(url):
         resp_headers = e.headers
 
     if 'refresh' in resp_headers:
-        import time
         time.sleep(int(resp_headers['refresh'][:1]))
 
-        scrapertools.get_headers_from_response(host + "/" + resp_headers['refresh'][7:], headers=headers)
+        urlsplit = urlparse.urlsplit(url)
+        h = urlsplit.netloc
+        s = urlsplit.scheme
+        scrapertools.get_headers_from_response(s + '://' + h + "/" + resp_headers['refresh'][7:], headers=headers)
 
     return scrapertools.cache_page(url, headers=headers)
 
