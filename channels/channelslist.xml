@@ -481,10 +481,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/hdgratis.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>8</version>
+    <version>9</version>
     <adult>false</adult>
-    <date>20/04/2016</date>
-    <changes>fixes</changes>
+    <date>29/04/2016</date>
+    <changes>drzer0 cloudflare fix</changes>
     <categories>
         <category>movie</category>
         <category>anime</category>
@@ -590,10 +590,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/italiafilmvideohd.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>5</version>
+    <version>6</version>
     <adult>false</adult>
-    <date>09/04/2016</date>
-    <changes>Fixex hdpass</changes>
+    <date>29/04/2016</date>
+    <changes>drzer0 cloudflare fix</changes>
     <categories>
         <category>movie</category>
         <category>anime</category>
