@@ -900,7 +900,7 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/seriehd.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>23</version>
+    <version>24</version>
     <adult>false</adult>
     <date>28/04/2016</date>
     <changes>robalo cleanup code and drzer0 cloudflare fix</changes>
