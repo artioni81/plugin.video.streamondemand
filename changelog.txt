@@ -1,2 +1,5 @@
-v5.2.4
-- integrated TMDB on channels (pre-release)
+v5.2.5
+- integrated wait for network - credits: costaplus
+- Beautify TMDB
+- New channels: programmazione, altadefinizioneone
+- Fixed some channels

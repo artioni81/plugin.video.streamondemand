@@ -4,6 +4,19 @@
 # update_servers.py
 # http://blog.tvalacarta.info/plugin-xbmc/pelisalacarta/
 # ------------------------------------------------------------
+import urllib2
+
+def attendi_rete():
+    while True:
+        try:
+            response = urllib2.urlopen('http://www.google.it',timeout=1)
+            return
+        except urllib2.URLError:
+            pass
+
+def main():
+    print "connesso"
+
 import os
 import re
 from threading import Thread
