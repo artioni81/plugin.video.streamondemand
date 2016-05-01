@@ -4,16 +4,13 @@
 # Canale per toointalia
 # http://www.mimediacenter.info/foro/viewforum.php?f=36
 # ------------------------------------------------------------
-import urlparse
 import re
-import sys
 
-from core import scrapertools
-from core import logger
 from core import config
+from core import logger
+from core import scrapertools
 from core.item import Item
 from servers import servertools
-from servers import adfly
 
 __channel__ = "toonitalia"
 __category__ = "A"
@@ -21,13 +18,12 @@ __type__ = "generic"
 __title__ = "Toonitalia"
 __language__ = "IT"
 
-host = "http://toonitalia.altervista.org/"
+host = "http://toonitalia.altervista.org"
 
 headers = [
     ['User-Agent', 'Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0'],
     ['Accept-Encoding', 'gzip, deflate']
 ]
-
 
 DEBUG = config.get_setting("debug")
 
@@ -35,33 +31,57 @@ DEBUG = config.get_setting("debug")
 def isGeneric():
     return True
 
+
 def mainlist(item):
     logger.info("streamondemand.toointalia mainlist")
-    itemlist = []
-    itemlist.append( Item(channel=__channel__, title="[COLOR azure]Home[/COLOR]", action="anime", url=host, thumbnail="http://i.imgur.com/a8Vwz1V.png"))
-    itemlist.append( Item(channel=__channel__, title="[COLOR azure]Anime[/COLOR]" , action="anime", url=host+"/category/anime/",thumbnail="http://i.imgur.com/a8Vwz1V.png"))
-    itemlist.append( Item(channel=__channel__, title="[COLOR azure]Anime Sub-Ita[/COLOR]", action="anime", url=host+"/category/anime-sub-ita/", thumbnail="http://i.imgur.com/a8Vwz1V.png"))
-    itemlist.append( Item(channel=__channel__, title="[COLOR azure]Film Animazione[/COLOR]", action="animazione", url="%s/category/film-animazione/" % host, thumbnail="http://i.imgur.com/a8Vwz1V.png"))
-    itemlist.append( Item(channel=__channel__, title="[COLOR azure]Serie TV[/COLOR]", action="anime", url=host+"/category/serie-tv/", thumbnail="http://i.imgur.com/a8Vwz1V.png"))
-    itemlist.append( Item(channel=__channel__, title="[COLOR yellow]Cerca...[/COLOR]", action="search", thumbnail="http://dc467.4shared.com/img/fEbJqOum/s7/13feaf0c8c0/Search"))
+    itemlist = [Item(channel=__channel__,
+                     title="[COLOR azure]Home[/COLOR]",
+                     action="anime",
+                     url=host,
+                     thumbnail="http://i.imgur.com/a8Vwz1V.png"),
+                Item(channel=__channel__,
+                     title="[COLOR azure]Anime[/COLOR]",
+                     action="anime",
+                     url=host + "/category/anime/",
+                     thumbnail="http://i.imgur.com/a8Vwz1V.png"),
+                Item(channel=__channel__,
+                     title="[COLOR azure]Anime Sub-Ita[/COLOR]",
+                     action="anime",
+                     url=host + "/category/anime-sub-ita/",
+                     thumbnail="http://i.imgur.com/a8Vwz1V.png"),
+                Item(channel=__channel__,
+                     title="[COLOR azure]Film Animazione[/COLOR]",
+                     action="animazione",
+                     url="%s/category/film-animazione/" % host,
+                     thumbnail="http://i.imgur.com/a8Vwz1V.png"),
+                Item(channel=__channel__,
+                     title="[COLOR azure]Serie TV[/COLOR]",
+                     action="anime",
+                     url=host + "/category/serie-tv/",
+                     thumbnail="http://i.imgur.com/a8Vwz1V.png"),
+                Item(channel=__channel__,
+                     title="[COLOR yellow]Cerca...[/COLOR]",
+                     action="search",
+                     thumbnail="http://dc467.4shared.com/img/fEbJqOum/s7/13feaf0c8c0/Search")]
 
     return itemlist
 
-def search(item,texto):
-    logger.info("[toonitalia.py] "+item.url+" search "+texto)
-    item.url = "http://toonitalia.altervista.org/?s="+texto
+
+def search(item, texto):
+    logger.info("[toonitalia.py] " + item.url + " search " + texto)
+    item.url = host + "/?s=" + texto
     try:
         return anime(item)
     # Se captura la excepción, para no interrumpir al buscador global si un canal falla
     except:
         import sys
         for line in sys.exc_info():
-            logger.error( "%s" % line )
-        return []	
+            logger.error("%s" % line)
+        return []
 
 
-def anime( item ):
-    logger.info( "streamondemand.toointalia peliculas" )
+def anime(item):
+    logger.info("streamondemand.toointalia peliculas")
 
     itemlist = []
 
@@ -69,107 +89,108 @@ def anime( item ):
     data = scrapertools.cache_page(item.url)
 
     ## Extrae las entradas (carpetas)
-    patron  = '<figure class="post-image left">\s*<a href="([^"]+)"><img src="[^"]*"[^l]+lt="([^"]+)" /></a>\s*</figure>'
-    matches = re.compile( patron, re.DOTALL ).findall( data )
+    patron = '<figure class="post-image left">\s*<a href="([^"]+)"><img src="[^"]*"[^l]+lt="([^"]+)" /></a>\s*</figure>'
+    matches = re.compile(patron, re.DOTALL).findall(data)
 
-    for scrapedurl,scrapedtitle in matches:
-        title = scrapertools.decodeHtmlentities( scrapedtitle )
-        scrapedthumbnail="" 
+    for scrapedurl, scrapedtitle in matches:
+        title = scrapertools.decodeHtmlentities(scrapedtitle)
+        scrapedthumbnail = ""
 
         try:
-           plot, fanart, poster, extrameta = info_tv(title)
+            plot, fanart, poster, extrameta = info_tv(title)
 
-           itemlist.append(
-               Item(channel=__channel__,
-                    thumbnail=poster,
-                    fanart=fanart if fanart != "" else poster,
-                    extrameta=extrameta,
-                    plot=str(plot),
-                    action="episodi",
-                    title="[COLOR azure]" + title + "[/COLOR]",
-                    url=scrapedurl,
-                    fulltitle=title,
-                    show=title,
-                    folder=True))
+            itemlist.append(
+                Item(channel=__channel__,
+                     thumbnail=poster,
+                     fanart=fanart if fanart != "" else poster,
+                     extrameta=extrameta,
+                     plot=str(plot),
+                     action="episodi",
+                     title="[COLOR azure]" + title + "[/COLOR]",
+                     url=scrapedurl,
+                     fulltitle=title,
+                     show=title,
+                     folder=True))
         except:
-           itemlist.append(
-               Item(channel=__channel__,
-                    action="episodi",
-                    title=title,
-                    url=scrapedurl,
-                    thumbnail=scrapedthumbnail,
-                    fulltitle=title,
-                    show=title,
-                    viewmode="movie_with_plot"))
+            itemlist.append(
+                Item(channel=__channel__,
+                     action="episodi",
+                     title=title,
+                     url=scrapedurl,
+                     thumbnail=scrapedthumbnail,
+                     fulltitle=title,
+                     show=title,
+                     viewmode="movie_with_plot"))
 
     # Older Entries
     patron = '<link rel="next" href="([^"]+)" />'
     next_page = scrapertools.find_single_match(data, patron)
     if next_page != "":
         itemlist.append(
-                Item(channel=__channel__,
-                     title="[COLOR orange]Post più vecchi...[/COLOR]",
-                     url=next_page,
-                     action="anime",
-                     thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png"))
-					 
-    return itemlist	
+            Item(channel=__channel__,
+                 title="[COLOR orange]Post più vecchi...[/COLOR]",
+                 url=next_page,
+                 action="anime",
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png"))
 
-def animazione( item ):
-    logger.info( "streamondemand.toointalia peliculas" )
+    return itemlist
+
+
+def animazione(item):
+    logger.info("streamondemand.toointalia peliculas")
 
     itemlist = []
 
     ## Descarga la pagina
-    data = scrapertools.cache_page( item.url )
+    data = scrapertools.cache_page(item.url)
 
     ## Extrae las entradas (carpetas)
-    patron  = '<figure class="post-image left">\s*<a href="([^"]+)"><img src="[^"]*"[^l]+lt="([^"]+)" /></a>\s*</figure>'
-    matches = re.compile( patron, re.DOTALL ).findall( data )
+    patron = '<figure class="post-image left">\s*<a href="([^"]+)"><img src="[^"]*"[^l]+lt="([^"]+)" /></a>\s*</figure>'
+    matches = re.compile(patron, re.DOTALL).findall(data)
 
-    for scrapedurl,scrapedtitle in matches:
-        title = scrapertools.decodeHtmlentities( scrapedtitle )
-        scrapedthumbnail="" 
+    for scrapedurl, scrapedtitle in matches:
+        title = scrapertools.decodeHtmlentities(scrapedtitle)
+        scrapedthumbnail = ""
         try:
-           plot, fanart, poster, extrameta = info(title)
+            plot, fanart, poster, extrameta = info(title)
 
-           itemlist.append(
-               Item(channel=__channel__,
-                    thumbnail=poster,
-                    fanart=fanart if fanart != "" else poster,
-                    extrameta=extrameta,
-                    plot=str(plot),
-                    action="film",
-                    title="[COLOR azure]" + title + "[/COLOR]",
-                    url=scrapedurl,
-                    fulltitle=title,
-                    show=title,
-                    folder=True))
+            itemlist.append(
+                Item(channel=__channel__,
+                     thumbnail=poster,
+                     fanart=fanart if fanart != "" else poster,
+                     extrameta=extrameta,
+                     plot=str(plot),
+                     action="film",
+                     title="[COLOR azure]" + title + "[/COLOR]",
+                     url=scrapedurl,
+                     fulltitle=title,
+                     show=title,
+                     folder=True))
         except:
-           itemlist.append(
-               Item(channel=__channel__,
-                    action="film",
-                    title=title,
-                    url=scrapedurl,
-                    thumbnail=scrapedthumbnail,
-                    fulltitle=title,
-                    show=title,
-                    viewmode="movie_with_plot"))
-
+            itemlist.append(
+                Item(channel=__channel__,
+                     action="film",
+                     title=title,
+                     url=scrapedurl,
+                     thumbnail=scrapedthumbnail,
+                     fulltitle=title,
+                     show=title,
+                     viewmode="movie_with_plot"))
 
     # Older Entries
     patron = '<link rel="next" href="([^"]+)" />'
     next_page = scrapertools.find_single_match(data, patron)
     if next_page != "":
         itemlist.append(
-                Item(channel=__channel__,
-                     title="[COLOR orange]Post più vecchi...[/COLOR]",
-                     url=next_page,
-                     action="animazione",
-                     thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png"))
-					 
-    return itemlist	
-	
+            Item(channel=__channel__,
+                 title="[COLOR orange]Post più vecchi...[/COLOR]",
+                 url=next_page,
+                 action="animazione",
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png"))
+
+    return itemlist
+
+
 def episodi(item):
     logger.info("toonitalia.py episodi")
 
@@ -177,15 +198,14 @@ def episodi(item):
 
     # Downloads page
     data = scrapertools.cache_page(item.url)
-    data = scrapertools.find_single_match(data, '<div id="tab-tab(.*?)</body>')
     # Extracts the entries
-    patron = '<a.*?href="([^"]+)".*?target="_blank">([^"]+)</a><'
-    #patron = '<a href="([^"]+)"[^>]+>([^"]+)</a><br />'
+    patron = '<a\s*href="([^"]+)"\s*target="_blank">([^<]+)</a><'
     matches = re.compile(patron, re.DOTALL).findall(data)
 
     for scrapedurl, scrapedtitle in matches:
-        scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
-        itemlist.append(
+        if 'adf.ly' not in scrapedurl:
+            scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
+            itemlist.append(
                 Item(channel=__channel__,
                      action="findvid",
                      title=scrapedtitle,
@@ -193,6 +213,7 @@ def episodi(item):
                      url=scrapedurl))
 
     return itemlist
+
 
 def film(item):
     logger.info("toonitalia.py film")
@@ -202,49 +223,36 @@ def film(item):
     # Downloads page
     data = scrapertools.cache_page(item.url)
     # Extracts the entries
-#    patron = '<img class="aligncenter.*?src="([^"]+)" alt="([^"]+)".*?<strong><a href="([^"]+)" target="_blank">'
+    #    patron = '<img class="aligncenter.*?src="([^"]+)" alt="([^"]+)".*?<strong><a href="([^"]+)" target="_blank">'
     patron = '<img.*?src="([^"]+)".*?alt="([^"]+)".*?strong><a href="([^"]+)" target="_blank">'
     matches = re.compile(patron, re.DOTALL).findall(data)
 
-    for scrapedthumbnail,scrapedtitle,scrapedurl in matches:
+    for scrapedthumbnail, scrapedtitle, scrapedurl in matches:
         scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
 
         itemlist.append(
-                Item(channel=__channel__,
-                     action="findvid",
-                     title=scrapedtitle,
-                     thumbnail=scrapedthumbnail,
-                     url=scrapedurl))
+            Item(channel=__channel__,
+                 action="findvid",
+                 title=scrapedtitle,
+                 thumbnail=scrapedthumbnail,
+                 url=scrapedurl))
     # Older Entries
     patron = '<link rel="next" href="([^"]+)" />'
     next_page = scrapertools.find_single_match(data, patron)
     if next_page != "":
         itemlist.append(
-                Item(channel=__channel__,
-                     title="[COLOR orange]Post più vecchi...[/COLOR]",
-                     url=next_page,
-                     action="film",
-                     thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png"))
-    return itemlist	
-	
+            Item(channel=__channel__,
+                 title="[COLOR orange]Post più vecchi...[/COLOR]",
+                 url=next_page,
+                 action="film",
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png"))
+    return itemlist
+
+
 def findvid(item):
     logger.info("[toonitalia.py] findvideos")
-    #Avoids flashx 503 error on winOS
-    import time
-    time.sleep(10)
 
-    # Downloads page
-    data = item.url
-    if any( [data == 'http://bc.vc/', data == 'http://adfoc.us/'] ):
-    #if 'http://bc.vc/' in data:
-        headers.append(['Referer', data])
-        data = scrapertools.cache_page(data, headers=headers)
-        start = data.find('www')
-        end = data.find('.html', start)
-        data = data[start:end]
-        #data = data[20:]
-
-    itemlist = servertools.find_video_items(data=data)
+    itemlist = servertools.find_video_items(data=item.url)
     for videoitem in itemlist:
         videoitem.title = item.title + videoitem.title
         videoitem.fulltitle = item.fulltitle
@@ -253,38 +261,40 @@ def findvid(item):
 
     return itemlist
 
+
 def info_tv(title):
     logger.info("streamondemand.toonitalia info")
     try:
         from core.tmdb import Tmdb
-        oTmdb= Tmdb(texto_buscado=title, tipo= "tv", include_adult="false", idioma_busqueda="it")
+        oTmdb = Tmdb(texto_buscado=title, tipo="tv", include_adult="false", idioma_busqueda="it")
         count = 0
         if oTmdb.total_results > 0:
-           extrameta = {}
-           extrameta["Year"] = oTmdb.result["release_date"][:4]
-           extrameta["Genre"] = ", ".join(oTmdb.result["genres"])
-           extrameta["Rating"] = float(oTmdb.result["vote_average"])
-           fanart=oTmdb.get_backdrop()
-           poster=oTmdb.get_poster()
-           plot=oTmdb.get_sinopsis()
-           return plot, fanart, poster, extrameta
+            extrameta = {}
+            extrameta["Year"] = oTmdb.result["release_date"][:4]
+            extrameta["Genre"] = ", ".join(oTmdb.result["genres"])
+            extrameta["Rating"] = float(oTmdb.result["vote_average"])
+            fanart = oTmdb.get_backdrop()
+            poster = oTmdb.get_poster()
+            plot = oTmdb.get_sinopsis()
+            return plot, fanart, poster, extrameta
     except:
         pass
+
 
 def info(title):
     logger.info("streamondemand.toonitalia info")
     try:
         from core.tmdb import Tmdb
-        oTmdb= Tmdb(texto_buscado=title, tipo= "movie", include_adult="false", idioma_busqueda="it")
+        oTmdb = Tmdb(texto_buscado=title, tipo="movie", include_adult="false", idioma_busqueda="it")
         count = 0
         if oTmdb.total_results > 0:
-           extrameta = {}
-           extrameta["Year"] = oTmdb.result["release_date"][:4]
-           extrameta["Genre"] = ", ".join(oTmdb.result["genres"])
-           extrameta["Rating"] = float(oTmdb.result["vote_average"])
-           fanart=oTmdb.get_backdrop()
-           poster=oTmdb.get_poster()
-           plot=oTmdb.get_sinopsis()
-           return plot, fanart, poster, extrameta
+            extrameta = {}
+            extrameta["Year"] = oTmdb.result["release_date"][:4]
+            extrameta["Genre"] = ", ".join(oTmdb.result["genres"])
+            extrameta["Rating"] = float(oTmdb.result["vote_average"])
+            fanart = oTmdb.get_backdrop()
+            poster = oTmdb.get_poster()
+            plot = oTmdb.get_sinopsis()
+            return plot, fanart, poster, extrameta
     except:
         pass
