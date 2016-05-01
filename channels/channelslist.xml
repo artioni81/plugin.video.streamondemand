@@ -42,6 +42,23 @@
 
 
 <channel>
+    <id>altadefinizioneone</id>
+    <name>Altadefinizione.one</name>
+    <language>it</language>
+    <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/altadefinizioneone.py</update_url>
+    <active>true</active>
+    <include_in_global_search>true</include_in_global_search>
+    <version>1</version>
+    <adult>false</adult>
+    <date>30/04/2016</date>
+    <changes>First release</changes>
+    <categories>
+        <category>movie</category>
+    </categories>
+</channel>
+
+
+<channel>
     <id>asiansubita</id>
     <name>Asian Sub-Ita</name>
     <language>it</language>

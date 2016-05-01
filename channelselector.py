@@ -246,6 +246,7 @@ def channels_list():
     #itemlist.append( Item( title="[COLOR red]SkyStreaming[/COLOR]"        , channel="skystreaming"       , language="IT"    , category="B,F"       , type="generic"))
     itemlist.append( Item( title="[COLOR azure]AltaDefinizione01[/COLOR]"      , channel="altadefinizione01"           , language="IT"    , category="B,F,A"   , type="generic"))
     itemlist.append( Item( title="[COLOR azure]Altadefinizione.click[/COLOR]" , channel="altadefinizioneclick" , language="IT" , category="F" , type="generic"))
+    itemlist.append( Item( title="[COLOR azure]Altadefinizione.one[/COLOR]" , channel="altadefinizioneone" , language="IT" , category="F" , type="generic",thumbnail="http://www.altadefinizione.one/templates/altadefinizione/images/logo.png"))
     #itemlist.append( Item( title="[COLOR azure]Anime Sub Ita[/COLOR]"   , channel="animesubita"           , language="IT"    , category="A"   , type="generic"))
     itemlist.append( Item( title="[COLOR azure]Asian Sub-Ita[/COLOR]"      , channel="asiansubita"           , language="IT"    , category="F,S,VOS"   , type="generic"))
     #itemlist.append( Item( title="[COLOR azure]BreakingBadITA Streaming[/COLOR]"      , channel="breakingbadita"           , language="IT"    , category="S"   , type="generic",thumbnail="http://breakingbaditastreaming.altervista.org/images/logo.png"))
@@ -304,7 +305,7 @@ def channels_list():
     itemlist.append( Item( title="[COLOR azure]Play Cinema[/COLOR]"    , channel="playcinema"           , language="IT"    , category="F"   , type="generic", thumbnail="http://www.playcinema.org/wp-content/uploads/2015/10/playcinemaimmagine.png"  ))
     itemlist.append( Item( title="[COLOR azure]PortaleHD[/COLOR]"   , channel="portalehd"           , language="IT"    , category="F,B,3"   , type="generic"))
     itemlist.append( Item( title="[COLOR azure]Ricette Video[/COLOR]"        , channel="ricettevideo"       , language="IT"    , category="D"       , type="generic" ,thumbnail="http://ricettevideo.net/wp-content/uploads/2013/08/Ricette-Video-Logo.png"))
-    itemlist.append( Item( title="[COLOR azure]Corsi Programmazione[/COLOR]"        , channel="programmazione"       , language="IT"    , category="A"       , type="generic",thumbnail="http://www.smartworld.it/wp-content/uploads/2015/02/codice-code-programmazione-fhd-720x480.png"))
+    itemlist.append( Item( title="[COLOR azure]Corsi Programmazione[/COLOR]"        , channel="programmazione"       , language="IT"    , category="D"       , type="generic",thumbnail="http://www.smartworld.it/wp-content/uploads/2015/02/codice-code-programmazione-fhd-720x480.png"))
     itemlist.append( Item( title="[COLOR azure]Saint Seiya[/COLOR]"     , channel="saintseiya"       , language="IT"    , category="A"        , thumbnail="http://vignette2.wikia.nocookie.net/nonciclopedia/images/1/12/Logo_Cavalieri_dello_Zodiaco.png/revision/latest?cb=20140308215438", type="generic"))
     itemlist.append( Item( title="[COLOR azure]Scambio Etico - TNT Village[/COLOR]"     , channel="scambioetico"       , language="IT"    , category="F,T" , thumbnail="http://forum.tntvillage.scambioetico.org/style_images/mkportal-636/tntlogo2012.png", type="generic"))
     itemlist.append( Item( title="[COLOR azure]Serie HD[/COLOR]"     , channel="seriehd"       , language="IT"    , category="S"        , type="generic"))
@@ -361,3 +362,4 @@ def get_thumbnail_path(preferred_thumb=""):
         WEB_PATH = "https://raw.githubusercontent.com/Zanzibar82/images/master/"+preferred_thumb+"/"
 
     return WEB_PATH
+
