@@ -92,11 +92,11 @@ def play(item):
     itemlist = []
 
     data = scrapertools.cache_page(item.url)
-    logger.info("data="+data)
-    link = scrapertools.get_match(data,'<a class="forbtn magnet" target="_blank" href="(magnet[^"]+)" title="Magnet" ></a>')
-    link = urlparse.urljoin(item.url,link)
-    logger.info("link="+link)
 
+    patron = '<a class="forbtn magnet" target="_blank" href="(magnet[^"]+)" title="Magnet" ></a>'
+    patron = urllib.unquote(patron).decode('utf8')
+    link = scrapertools.find_single_match(data, patron)
+    link = urlparse.urljoin(item.url,link)
 
     itemlist.append( Item(channel=__channel__, action=play, server="torrent", title=item.title , url=link , thumbnail=item.thumbnail , plot=item.plot , folder=False) )
 
