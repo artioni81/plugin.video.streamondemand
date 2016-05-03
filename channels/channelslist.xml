@@ -553,8 +553,8 @@
     <include_in_global_search>true</include_in_global_search>
     <version>6</version>
     <adult>false</adult>
-    <date>22/04/2016</date>
-    <changes>Web address changes</changes>
+    <date>04/05/2016</date>
+    <changes>drzer0 cloudflare fix</changes>
     <categories>
         <category>movie</category>
     </categories>
@@ -801,10 +801,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/playcinema.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>6</version>
+    <version>7</version>
     <adult>false</adult>
-    <date>09/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>04/05/2016</date>
+    <changes>drzer0 cloudflare fix</changes>
     <categories>
         <category>movie</category>
     </categories>
@@ -818,10 +818,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/portalehd.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>12</version>
+    <version>13</version>
     <adult>false</adult>
-    <date>22/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>04/05/2016</date>
+    <changes>drzer0 cloudflare fix</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -1133,10 +1133,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/vediserie.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>7</version>
+    <version>8</version>
     <adult>false</adult>
-    <date>05/04/2015</date>
-    <changes>Added TMDB</changes>
+    <date>04/05/2015</date>
+    <changes>drzer0 cloudflare fix</changes>
     <categories>
         <category>serie</category>
     </categories>

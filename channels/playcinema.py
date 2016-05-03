@@ -195,12 +195,15 @@ def anti_cloudflare(url):
         resp_headers = e.headers
 
     if 'refresh' in resp_headers:
-        import time
         time.sleep(int(resp_headers['refresh'][:1]))
 
-        scrapertools.get_headers_from_response(host + "/" + resp_headers['refresh'][7:], headers=headers)
+        urlsplit = urlparse.urlsplit(url)
+        h = urlsplit.netloc
+        s = urlsplit.scheme
+        scrapertools.get_headers_from_response(s + '://' + h + "/" + resp_headers['refresh'][7:], headers=headers)
 
     return scrapertools.cache_page(url, headers=headers)
+
 
 def info(title):
     logger.info("streamondemand.playcinema info")
