@@ -8,10 +8,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/altadefinizione01.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>16</version>
+    <version>17</version>
     <adult>false</adult>
-    <date>05/04/2015</date>
-    <changes>Added TMDB</changes>
+    <date>03/05/2015</date>
+    <changes>fix anti-cloudflare</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -28,10 +28,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/altadefinizioneclick.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>14</version>
+    <version>15</version>
     <adult>false</adult>
-    <date>10/04/2016</date>
-    <changes>fixed hdpass</changes>
+    <date>03/05/2016</date>
+    <changes>fix anti-cloudflare</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -131,10 +131,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/casacinema.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>15</version>
+    <version>16</version>
     <adult>false</adult>
-    <date>28/04/2016</date>
-    <changes>Fix Serie Tv</changes>
+    <date>03/05/2016</date>
+    <changes>fix anti-cloudflare</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -462,10 +462,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/guardaserie.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>13</version>
+    <version>14</version>
     <adult>false</adult>
-    <date>02/04/2016</date>
-    <changes>Reverted TMDB - too slow-</changes>
+    <date>03/05/2016</date>
+    <changes>fix anti-cloudflare</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
