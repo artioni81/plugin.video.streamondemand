@@ -7,7 +7,9 @@
 # ------------------------------------------------------------
 import re
 import urllib2
-
+import sys
+import time
+import urlparse
 from core import config
 from core import logger
 from core import scrapertools
