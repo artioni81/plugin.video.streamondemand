@@ -138,13 +138,6 @@ def peliculas(item):
 
     for scrapedurl, scrapedtitle, scrapedthumbnail in matches:
         scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
-        # response = urllib2.urlopen(scrapedurl, headers=headers)
-        # html = response.read()
-        # start = html.find("<div class=\"DetayAciklama-sol left\">")
-        # end = html.find("</p>", start)
-        # scrapedplot = html[start:end]
-        # scrapedplot = re.sub(r'<[^>]*>', '', scrapedplot)
-        # scrapedplot = scrapertools.decodeHtmlentities(scrapedplot)
         scrapedplot = ""
         # ------------------------------------------------
         scrapedthumbnail += "|" + _headers
