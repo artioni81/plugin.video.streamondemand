@@ -259,10 +259,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/darkstream.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>12</version>
+    <version>13</version>
     <adult>false</adult>
-    <date>04/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>07/05/2016</date>
+    <changes>small fix</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -852,10 +852,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/ricettevideo.py</update_url>
     <active>true</active>
     <include_in_global_search>false</include_in_global_search>
-    <version>1</version>
+    <version>2</version>
     <adult>false</adult>
-    <date>21/02/2016</date>
-    <changes>1st release</changes>
+    <date>07/05/2016</date>
+    <changes>small fix</changes>
     <categories>
         <category>Documentaries</category>
     </categories>
