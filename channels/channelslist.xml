@@ -909,6 +909,21 @@
     </categories>
 </channel>
 
+<channel>
+    <id>scambiofile</id>
+    <name>Scambiofile</name>
+    <language>it</language>
+    <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/scambiofile.py</update_url>
+    <active>true</active>
+    <include_in_global_search>true</include_in_global_search>
+    <version>1</version>
+    <adult>false</adult>
+    <date>08/05/2016</date>
+    <changes>New channel</changes>
+    <categories>
+        <category>movie</category>
+    </categories>
+</channel>
 
 <channel>
     <id>seriehd</id>
