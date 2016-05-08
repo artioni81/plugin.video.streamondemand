@@ -9,8 +9,8 @@
 __plugin__  = "streamondemand"
 __author__  = "iSOD"
 __url__     = "http://blog.tvalacarta.info/plugin-xbmc/pelisalacarta/"
-__date__ = "30/04/2016"
-__version__ = "5.2.5"
+__date__ = "08/05/2016"
+__version__ = "5.2.6"
 
 import os
 import sys

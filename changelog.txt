@@ -1,5 +1,4 @@
-v5.2.5
-- integrated wait for network - credits: costaplus
-- Beautify TMDB
-- New channels: programmazione, altadefinizioneone
+v5.2.6
+- optimized integrated wait for network
+- New channel: scambiofile
 - Fixed some channels
