@@ -89,12 +89,6 @@ def peliculas(item):
     matches = re.compile(patron, re.DOTALL).findall(data)
 
     for scrapedurl, scrapedthumbnail, scrapedtitle in matches:
-        #html = scrapertools.cache_page(scrapedurl, headers=headers)
-        #start = html.find("<div class=\"aciklama\">")
-        #end = html.find("<div class=\'bMavi\'>Titolo originale:", start)
-        #scrapedplot = html[start:end]
-        #scrapedplot = re.sub(r'<[^>]*>', '', scrapedplot)
-        #scrapedplot = scrapertools.decodeHtmlentities(scrapedplot)
         scrapedplot = ""
         scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle.replace("Streaming", ""))
         if DEBUG: logger.info(
@@ -253,5 +247,4 @@ def info(title):
             return plot, fanart, poster, extrameta
     except:
         pass
-
 

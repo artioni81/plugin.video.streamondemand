@@ -34,7 +34,6 @@ headers = [
 def isGeneric():
     return True
 
-
 def mainlist(item):
     logger.info("streamondemand.altadefinizioneone mainlist")
     itemlist = [Item(channel=__channel__,
@@ -257,6 +256,4 @@ def info(title):
             return plot, fanart, poster, extrameta
     except:
         pass
-
-
 

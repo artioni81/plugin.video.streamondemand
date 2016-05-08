@@ -8,7 +8,7 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/altadefinizione01.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>17</version>
+    <version>18</version>
     <adult>false</adult>
     <date>03/05/2015</date>
     <changes>fix anti-cloudflare</changes>
@@ -28,7 +28,7 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/altadefinizioneclick.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>16</version>
+    <version>17</version>
     <adult>false</adult>
     <date>04/05/2016</date>
     <changes>fix anti-cloudflare</changes>
@@ -48,7 +48,7 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/altadefinizioneone.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>1</version>
+    <version>2</version>
     <adult>false</adult>
     <date>30/04/2016</date>
     <changes>First release</changes>
