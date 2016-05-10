@@ -62,6 +62,10 @@ def peliculas(item):
         scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
         title = scrapedtitle.split("(")[0]
         url = scrapedurl
+        url = url.replace("%2F", "/")
+        url = url.replace("%3F", "?")
+        url = url.replace("%26n%3", "&n=")
+        url = url.replace("/details.php", "http://www.scambiofile.info/details.php")
         scrapedplot = ""
         scrapedthumbnail = ""
         if (DEBUG): logger.info("title=["+scrapedtitle+"], url=["+url+"], thumbnail=["+scrapedthumbnail+"]")
@@ -90,7 +94,7 @@ def play(item):
 
     data = scrapertools.cache_page(item.url)
 
-    patron = '<a class=\'btn btn-warning small\' href="(magnet[^"]+)">'
+    patron = '<a class=\'btn btn-warning small\' href="(magnet[^&]+)[^>]+>'
     patron = urllib.unquote(patron).decode('utf8')
     link = scrapertools.find_single_match(data, patron)
     link = urlparse.urljoin(item.url,link)
