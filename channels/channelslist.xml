@@ -168,7 +168,7 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/cineblog01.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>31</version>
+    <version>32</version>
     <adult>false</adult>
     <date>23/04/2016</date>
     <changes>Added TMDB tv</changes>
@@ -498,10 +498,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/hdgratis.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>9</version>
+    <version>10</version>
     <adult>false</adult>
-    <date>29/04/2016</date>
-    <changes>drzer0 cloudflare fix</changes>
+    <date>20/05/2016</date>
+    <changes>fix by KodiFilms2</changes>
     <categories>
         <category>movie</category>
         <category>anime</category>
@@ -713,10 +713,10 @@
     </update_url>
     <active>true</active>
     <include_in_global_search>false</include_in_global_search>
-    <version>11</version>
+    <version>12</version>
     <adult>false</adult>
-    <date>20/04/2016</date>
-    <changes>robalo - fix obfuscator</changes>
+    <date>23/05/2016</date>
+    <changes>add tmdb date</changes>
     <categories>
         <category>movie</category>
     </categories>
@@ -836,10 +836,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/programmazione.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>1</version>
+    <version>2</version>
     <adult>false</adult>
-    <date>26/04/2016</date>
-    <changes>Added new channel</changes>
+    <date>11/05/2016</date>
+    <changes>Update programmazione</changes>
     <categories>
         <category>Didattica</category>
     </categories>

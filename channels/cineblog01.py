@@ -138,8 +138,9 @@ def peliculasrobalo(item):
             "title=[" + scrapedtitle + "], url=[" + scrapedurl + "], thumbnail=[" + scrapedthumbnail + "]")
         tmdbtitle1 = scrapedtitle.split("[")[0]
         tmdbtitle = tmdbtitle1.split("(")[0]
+        year = scrapertools.find_single_match(scrapedtitle, '\((\d+)\)')
         try:
-            plot, fanart, poster, extrameta = info(tmdbtitle)
+            plot, fanart, poster, extrameta = info(tmdbtitle, year)
 
             itemlist.append(
                 Item(channel=__channel__,
@@ -975,11 +976,11 @@ def HomePage(item):
     xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.streamondemand)")
 
 
-def info(title):
+def info(title, year):
     logger.info("streamondemand.cineblog01 info")
     try:
         from core.tmdb import Tmdb
-        oTmdb = Tmdb(texto_buscado=title, tipo="movie", include_adult="false", idioma_busqueda="it")
+        oTmdb = Tmdb(texto_buscado=title, year=year, tipo="movie", include_adult="false", idioma_busqueda="it")
         if oTmdb.total_results > 0:
             extrameta = {"Year": oTmdb.result["release_date"][:4],
                          "Genre": ", ".join(oTmdb.result["genres"]),
