@@ -713,10 +713,10 @@
     </update_url>
     <active>true</active>
     <include_in_global_search>false</include_in_global_search>
-    <version>11</version>
+    <version>12</version>
     <adult>false</adult>
-    <date>20/04/2016</date>
-    <changes>robalo - fix obfuscator</changes>
+    <date>23/05/2016</date>
+    <changes>add tmdb date</changes>
     <categories>
         <category>movie</category>
     </categories>
