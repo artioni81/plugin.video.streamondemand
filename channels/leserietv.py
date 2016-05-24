@@ -46,6 +46,12 @@ def mainlist(item):
                          fanart="http://www.macroidee.it/wp-content/uploads/2015/06/migliori-serie-da-vedere.jpg"))
 
     itemlist.append(Item(channel=__channel__,
+                         title="[COLOR azure]Categorie[/COLOR]",
+                         action="categorias",
+                         url=host,
+                         thumbnail="http://xbmc-repo-ackbarr.googlecode.com/svn/trunk/dev/skin.cirrus%20extended%20v2/extras/moviegenres/All%20Movies%20by%20Genre.png"))
+
+    itemlist.append(Item(channel=__channel__,
                          action="top50",
                          title="[COLOR azure]Top 50[/COLOR]",
                          url="http://www.leserie.tv/top50.html",
@@ -118,6 +124,39 @@ def lista_serie(item):
         itemlist.append(Item(channel=__channel__, action="lista_serie", title="[COLOR orange]Successivo>>[/COLOR]", url=paginaurl,thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",folder=True))
         itemlist.append(Item(channel=__channel__, action="HomePage", title="[COLOR yellow]Torna Home[/COLOR]", folder=True))
     return itemlist
+#=================================================================
+
+#-----------------------------------------------------------------
+def categorias(item):
+    logger.info("streamondemand.laserietv categorias")
+    itemlist = []
+
+    data = scrapertools.cache_page(item.url)
+
+    # Narrow search by selecting only the combo
+    bloque = scrapertools.get_match(data, '<ul class="dropdown-menu cat-menu">(.*?)</ul>')
+
+    # The categories are the options for the combo
+    patron = '<li ><a href="([^"]+)">(.*?)</a></li>'
+    matches = re.compile(patron, re.DOTALL).findall(bloque)
+
+    for scrapedurl, scrapedtitle in matches:
+        scrapedurl = urlparse.urljoin(item.url, scrapedurl)
+        scrapedthumbnail = ""
+        scrapedplot = ""
+        if (DEBUG): logger.info(
+                "title=[" + scrapedtitle + "], url=[" + scrapedurl + "], thumbnail=[" + scrapedthumbnail + "]")
+        itemlist.append(
+                Item(channel=__channel__,
+                     action="lista_serie",
+                     title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                     url=scrapedurl,
+                     thumbnail=scrapedthumbnail,
+                     plot=scrapedplot))
+
+    return itemlist
+
+
 #=================================================================
 
 #-----------------------------------------------------------------
