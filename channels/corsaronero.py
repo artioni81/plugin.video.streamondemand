@@ -22,7 +22,7 @@ __language__ = "IT"
 DEBUG = config.get_setting("debug")
 
 host = "http://torcache.net/torrent/"
-site = "http://corsaronero.info"
+site = "http://ilcorsaronero.info"
 
 def isGeneric():
     return True
@@ -65,7 +65,7 @@ def peliculas(item):
         proctitle1 = scrapertools.decodeHtmlentities(scrapedtitle.replace("19","("))
         proctitle = scrapertools.decodeHtmlentities(proctitle1.replace("20","("))
         title = proctitle.split("(")[0]
-        url = scrapedurl
+        url = site + scrapedurl
         scrapedplot = ""
         scrapedthumbnail = ""
         if (DEBUG): logger.info("title=["+scrapedtitle+"], url=["+url+"], thumbnail=["+scrapedthumbnail+"]")
