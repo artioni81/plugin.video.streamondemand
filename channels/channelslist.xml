@@ -568,10 +568,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/itafilmtv.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>10</version>
+    <version>11</version>
     <adult>false</adult>
-    <date>23/04/2016</date>
-    <changes>Add TMDB tv</changes>
+    <date>27/05/2016</date>
+    <changes>Add host</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -1090,10 +1090,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/tantifilm.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>10</version>
+    <version>11</version>
     <adult>false</adult>
-    <date>23/04/2015</date>
-    <changes>Add TMDB</changes>
+    <date>27/05/2015</date>
+    <changes>New host</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
