@@ -39,6 +39,12 @@ def mainlist(item):
     logger.info("[leserietv.py] mainlist")
     itemlist =[]
     itemlist.append(Item(channel=__channel__,
+                         action="novita",
+                         title="[COLOR yellow]Novità[/COLOR]",
+                         url="http://www.leserie.tv/streaming/",
+                         thumbnail="http://www.ilmioprofessionista.it/wp-content/uploads/2015/04/TVSeries3.png",
+                         fanart="http://www.macroidee.it/wp-content/uploads/2015/06/migliori-serie-da-vedere.jpg"))
+    itemlist.append(Item(channel=__channel__,
                          action="lista_serie",
                          title="[COLOR azure]Tutte le serie[/COLOR]",
                          url="http://www.leserie.tv/streaming/",
@@ -64,9 +70,54 @@ def mainlist(item):
                          url="http://www.leserie.tv/index.php?do=search",
                          thumbnail="http://dc467.4shared.com/img/fEbJqOum/s7/13feaf0c8c0/Search",
                          fanart="http://www.kaushik.net/avinash/wp-content/uploads/2010/02/search_engine.png"))
+
     return itemlist
 #=================================================================
 
+
+#-----------------------------------------------------------------
+def novita(item):
+    logger.info("streamondemand.laserietv novità")
+    itemlist = []
+
+    data = scrapertools.cache_page(item.url)
+
+
+    patron ='<div class="carousel-item-cover">[^=]+="(.*?)">.*?src="(.*?)"[^=]+="(.*?)">'
+    matches = re.compile(patron, re.DOTALL).findall(data)
+    scrapertools.printMatches(matches)
+
+    for scrapedurl,scrapedthumbnail,scrapedtitle in matches:
+        if (DEBUG): logger.info("title=[" + scrapedtitle + "], url=[" + scrapedurl + "], thumbnail=[" + scrapedthumbnail + "]")
+
+
+        try:
+            tmdbtitle = scrapedtitle
+            plot, fanart, poster, extrameta = info(tmdbtitle)
+
+            itemlist.append(Item(channel=__channel__,
+                                 thumbnail=poster,
+                                 fanart=fanart if fanart != "" else poster,
+                                 extrameta=extrameta,
+                                 plot=str(plot),
+                                 action="episodi",
+                                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                                 url=scrapedurl,
+                                 fulltitle=scrapedtitle,
+                                 show=scrapedtitle,
+                                 folder=True))
+        except:
+
+             itemlist.append(Item(channel=__channel__,
+                                  action="episodi",
+                                  title=scrapedtitle,
+                                  url=scrapedurl,
+                                  thumbnail="",
+                                  fulltitle=scrapedtitle,
+                                  show=scrapedtitle))
+
+    return itemlist
+#=================================================================
 
 #-----------------------------------------------------------------
 def lista_serie(item):
