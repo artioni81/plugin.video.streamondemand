@@ -83,7 +83,7 @@ def novita(item):
     data = scrapertools.cache_page(item.url)
 
 
-    patron ='<div class="carousel-item-cover">[^=]+="(.*?)">.*?src="(.*?)"[^=]+="(.*?)">'
+    patron ='<div class="video-item-cover"[^<]+<a href="(.*?)">[^<]+<img src="(.*?)" alt="(.*?)">'
     matches = re.compile(patron, re.DOTALL).findall(data)
     scrapertools.printMatches(matches)
 
@@ -116,6 +116,19 @@ def novita(item):
                                   fulltitle=scrapedtitle,
                                   show=scrapedtitle))
 
+    # Paginazione
+    #===========================================================
+    patron = '<div class="pages">(.*?)</div>'
+    paginazione = scrapertools.find_single_match(data, patron)
+    patron = '<span>.*?</span>.*?href="([^"]+)".*?</a>'
+    matches = re.compile(patron, re.DOTALL).findall(paginazione)
+    scrapertools.printMatches(matches)
+    #===========================================================
+
+    if len(matches) > 0:
+        paginaurl = matches[0]
+        itemlist.append(Item(channel=__channel__, action="novita", title="[COLOR orange]Successivo>>[/COLOR]", url=paginaurl,thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",folder=True))
+        itemlist.append(Item(channel=__channel__, action="HomePage", title="[COLOR yellow]Torna Home[/COLOR]", folder=True))
     return itemlist
 #=================================================================
 
