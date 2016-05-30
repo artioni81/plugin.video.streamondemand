@@ -57,6 +57,21 @@
     </categories>
 </channel>
 
+<channel>
+    <id>animestream</id>
+    <name>Animestream.it</name>
+    <language>it</language>
+    <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/animestream.py</update_url>
+    <active>true</active>
+    <include_in_global_search>true</include_in_global_search>
+    <version>1</version>
+    <adult>false</adult>
+    <date>27/05/2016</date>
+    <changes>First release of this channel by costaplus</changes>
+    <categories>
+        <category>anime</category>
+    </categories>
+</channel>
 
 <channel>
     <id>asiansubita</id>
@@ -225,10 +240,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/corsaronero.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>6</version>
+    <version>7</version>
     <adult>false</adult>
-    <date>04/05/2016</date>
-    <changes>Fix magnet link</changes>
+    <date>24/05/2016</date>
+    <changes>Small fix</changes>
     <categories>
         <category>movie</category>
     </categories>
@@ -516,10 +531,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/hdstreamingit.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>13</version>
+    <version>14</version>
     <adult>false</adult>
     <date>28/04/2016</date>
-    <changes>Fixes + Added "serie tv animate"</changes>
+    <changes>Fixex de-obfuscator</changes>
     <categories>
         <category>movie</category>
     </categories>
@@ -568,10 +583,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/itafilmtv.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>10</version>
+    <version>11</version>
     <adult>false</adult>
-    <date>23/04/2016</date>
-    <changes>Add TMDB tv</changes>
+    <date>27/05/2016</date>
+    <changes>Add host</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>
@@ -689,6 +704,21 @@
     </categories>
 </channel>
 
+<channel>
+    <id>leserietv</id>
+    <name>Leserietv</name>
+    <language>it</language>
+    <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/leserietv.py</update_url>
+    <active>true</active>
+    <include_in_global_search>true</include_in_global_search>
+    <version>4</version>
+    <adult>false</adult>
+    <date>25/05/2016</date>
+    <changes>Fixed news</changes>
+    <categories>
+        <category>serie</category>
+    </categories>
+</channel>
 
 <channel>
     <id>libreria</id>
@@ -1075,10 +1105,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/tantifilm.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>10</version>
+    <version>11</version>
     <adult>false</adult>
-    <date>23/04/2015</date>
-    <changes>Add TMDB</changes>
+    <date>27/05/2015</date>
+    <changes>New host</changes>
     <categories>
         <category>movie</category>
         <category>serie</category>

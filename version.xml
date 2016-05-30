@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <version>
 	<name>Stream On Demand</name>
-	<tag>5.2.6</tag>
-	<version>5206</version>
-	<date>08/05/2016</date>
-	<changes>Stream On Demand - Wait for Network</changes>
+	<tag>5.2.7</tag>
+	<version>5207</version>
+	<date>27/05/2016</date>
+	<changes>Stream On Demand - Updates</changes>
 </version>
