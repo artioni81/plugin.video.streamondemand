@@ -52,7 +52,7 @@ def elenco_film(item):
         base=scrapedtitolo.replace(".","")
         base=base.replace("(","")
         titolo=base.split("20")[0]
-        itemlist.append(Item(channel=__channel__, action="dettaglio_film", title="[COLOR azure]"+ titolo + "[/COLOR][I][/I]",fulltitle=scrapedtitolo, url=host+scrapedurl,thumbnail=scrapedimg, fanart=scrapedimg))
+        itemlist.append(Item(channel=__channel__, action="dettaglio_film", title="[COLOR darkkhaki].torrent [/COLOR]""[COLOR azure]"+titolo+"[/COLOR]",fulltitle=scrapedtitolo, url=host+scrapedurl,thumbnail=scrapedimg, fanart=scrapedimg))
 
     # Paginazione
     # ===========================================================
