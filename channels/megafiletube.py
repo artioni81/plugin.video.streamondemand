@@ -70,7 +70,9 @@ def dettaglio_film(item):
     log("dettaglio_film", "dettaglio_film")
     itemlist=[]
 
-    patronMagnet = "red3'>.*?<div class='icon3'>.*?href=\"(.*?)\".*?class='fa fa-magnet"
+    #patronMagnet = "red3'>.*?<div class='icon3'>.*?href=\"(.*?)\".*?class='fa fa-magnet"
+    patronMagnet = '<div class=\'icon3\'> <a href="(magnet[^&]+)[^>]+>'
+    patronMagnet = patronMagnet.replace("&amp;","&")
     titolo=scrapedAll(item.url, patronMagnet)
 
     patronTorrent = "<div class='icon3'>.*?href=\"(.*?)\".*?class='fa fa-download"
@@ -81,8 +83,8 @@ def dettaglio_film(item):
 
     xbmc.log("titolo " + titolo[0] + "torrent " + torrent[0] + " " + Triler[0] )
 
-    itemlist.append(Item(channel=__channel__, action="torrent", title="[COLOR yellow] Torrent [/COLOR] - [I](" + host+torrent[0]+ ")[/I]",url=host+torrent[0], folder=True))
-    itemlist.append(Item(channel=__channel__, action="torrent",server="torrent", title="[COLOR yellow] Magnet [/COLOR][I](" + titolo[0] + ")[/I]",url=titolo[0], folder=True))
+    itemlist.append(Item(channel=__channel__, action="torrent", title="[COLOR yellow] Torrent [/COLOR] - [COLOR azure]Download[/COLOR] [I](" + host+torrent[0]+ ")[/I]",url=host+torrent[0], folder=True))
+    itemlist.append(Item(channel=__channel__, action="torrent",server="torrent", title="[COLOR yellow] Magnet [/COLOR] - [COLOR azure]Streaming[/COLOR] [I](" + titolo[0] + ")[/I]",url=titolo[0], folder=True))
     itemlist.append(Item(channel=__channel__, action="findvideos", title="[COLOR yellow]Trailer [/COLOR]", url=item.url,folder=True))
     itemlist.append(Item(channel=__channel__, action="cerca", title="[COLOR orange]Cerca in tutti i canali [/COLOR] "+ item.title, folder=True))
     itemlist.append(Item(channel=__channel__,action="",title="[COLOR azure]Info Qualità:[/COLOR] [I]"+ item.fulltitle + "[/I]",folder=False))

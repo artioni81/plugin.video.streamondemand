@@ -298,6 +298,7 @@ def channels_list():
     itemlist.append( Item( title="[COLOR azure]ItaStreaming[/COLOR]"      , channel="itastreaming" , language="IT" , category="F,S,A" , type="generic"))
     itemlist.append( Item( title="[COLOR azure]LiberoITA[/COLOR]"       , channel="liberoita"           , language="IT"    , category="F,S,A"   , type="generic"))
     itemlist.append( Item(title="[COLOR azure]LeserieTV[/COLOR]"    , channel="leserietv"       , language="IT"    , category="B,S"     , type="generic" ,thumbnail="http://www.leserie.tv/templates/LeserieTv/images/logo.png"))
+    itemlist.append( Item( title="[COLOR azure]Megafiletube[/COLOR]"        , channel="megafiletube"       , language="IT"    , category="F,T"       , type="generic"	, thumbnail="http://megafiletube.xyz/themes/default/images/logo.png"))
     itemlist.append( Item(title="[COLOR azure]MondoLunatico[/COLOR]"    , channel="mondolunatico"       , language="IT"    , category="B,F"     , type="generic" ,thumbnail="http://mondolunatico.altervista.org/blog/wp-content/uploads/2013/05/images-11.jpg"))
     #itemlist.append( Item( title="[COLOR azure]Multiplayer[/COLOR]"        , channel="multiplayer"       , language="IT"    , category="D"       , type="generic",thumbnail="https://pbs.twimg.com/profile_images/3707600249/5d27b86daf631ccfead935fd409e29ed_400x400.png"))
     #itemlist.append( Item( title="[COLOR azure]Liberostreaming[/COLOR]" , channel="liberostreaming" , language="IT" , category="F,S,A" , type="generic"))

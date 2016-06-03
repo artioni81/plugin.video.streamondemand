@@ -733,6 +733,21 @@
     <changes>Prima versione di Pelisalacarta 4</changes>
 </channel>
 
+<channel>
+    <id>megafiletube</id>
+    <name>Megafiletube</name>
+    <language>it</language>
+    <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/megafiletube.py</update_url>
+    <active>true</active>
+    <include_in_global_search>true</include_in_global_search>
+    <version>1</version>
+    <adult>false</adult>
+    <date>03/06/2016</date>
+    <changes>1st versin by Costaplus + fix magnet</changes>
+    <categories>
+        <category>movie</category>
+    </categories>
+</channel>
 
 <channel>
     <id>mondolunatico</id>
