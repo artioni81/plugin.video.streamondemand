@@ -4,7 +4,7 @@
     <id>abysstream</id>
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/servers/abysstream.py</update_url>
     <active>true</active>
-    <version>5</version>
+    <version>6</version>
     <date>05/04/2016</date>
     <changes>Aggiornamento server</changes>
 </server>
