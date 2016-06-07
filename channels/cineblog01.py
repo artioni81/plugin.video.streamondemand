@@ -650,6 +650,18 @@ def listanime(item):
     # Descarga la página
     data = anti_cloudflare(item.url)
 
+    ## ------------------------------------------------
+    cookies = ""
+    matches = re.compile('(.cineblog01.cc.*?)\n', re.DOTALL).findall(config.get_cookie_data())
+    for cookie in matches:
+        name = cookie.split('\t')[5]
+        value = cookie.split('\t')[6]
+        cookies += name + "=" + value + ";"
+    headers.append(['Cookie', cookies[:-1]])
+    import urllib
+    _headers = urllib.urlencode(dict(headers))
+    ## ------------------------------------------------
+
     # Extrae las entradas (carpetas)
     patronvideos = '<div class="span4"> <a.*?<img.*?src="(.*?)".*?'
     patronvideos += '<div class="span8">.*?<a href="(.*?)">.*?'
@@ -666,6 +678,10 @@ def listanime(item):
             scrapedplot = scrapedplot[64:]
         if DEBUG: logger.info(
             "title=[" + scrapedtitle + "], url=[" + scrapedurl + "], thumbnail=[" + scrapedthumbnail + "]")
+
+        ## ------------------------------------------------
+        scrapedthumbnail += "|" + _headers
+        ## ------------------------------------------------				
 
         # Añade al listado de XBMC
         itemlist.append(
