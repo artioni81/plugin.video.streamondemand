@@ -15,7 +15,7 @@ from core import scrapertools
 from core.item import Item
 from servers import servertools
 
-__channel__ = "animetubeit"
+__channel__ = "animetubeita"
 __category__ = "F"
 __type__ = "generic"
 __title__ = "animetubeita.com"
