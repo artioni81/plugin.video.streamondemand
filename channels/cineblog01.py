@@ -919,6 +919,8 @@ def play(item):
             #            data = scrapertools.get_match(data, r'<a href="([^"]+)">clicca qui</a>')
             #   In alternativa, dato che a volte compare "Clicca qui per proseguire":
             data = scrapertools.get_match(data, r'<a href="([^"]+)".*?class="btn-wrapper">.*?licca.*?</a>')
+        if 'vcrypt' in data:
+            data = scrapertools.get_header_from_response(data, headers=headers, header_to_get="Location")
         print "##### play go.php data ##\n%s\n##" % data
     elif "/link/" in item.url:
         data = anti_cloudflare(item.url)
