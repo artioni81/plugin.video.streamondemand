@@ -5,14 +5,12 @@
 # http://blog.tvalacarta.info/plugin-xbmc/streamondemand.
 # ------------------------------------------------------------
 import re
-import sys
 import urlparse
 
 from core import config
 from core import logger
 from core import scrapertools
 from core.item import Item
-from servers import servertools
 
 __channel__ = "altadefinizioneone"
 __category__ = "F"
@@ -31,15 +29,17 @@ headers = [
     ['Referer', host]
 ]
 
+
 def isGeneric():
     return True
+
 
 def mainlist(item):
     logger.info("streamondemand.altadefinizioneone mainlist")
     itemlist = [Item(channel=__channel__,
                      title="[COLOR azure]Ultimi Film Inseriti[/COLOR]",
                      action="peliculas",
-                     url="%s/novita-al-cinema/"  % host,
+                     url="%s/novita-al-cinema/" % host,
                      thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
                 Item(channel=__channel__,
                      title="[COLOR azure]Film Per Categoria[/COLOR]",
@@ -63,6 +63,7 @@ def mainlist(item):
 
     return itemlist
 
+
 def categorias(item):
     itemlist = []
 
@@ -79,7 +80,7 @@ def categorias(item):
 
     for url, titulo in matches:
         scrapedtitle = titulo
-        scrapedtitle = scrapedtitle.replace(" ","")
+        scrapedtitle = scrapedtitle.replace(" ", "")
         scrapedurl = urlparse.urljoin(item.url, url)
         scrapedthumbnail = ""
         scrapedplot = ""
@@ -94,6 +95,7 @@ def categorias(item):
                  plot=scrapedplot))
 
     return itemlist
+
 
 def byyear(item):
     itemlist = []
@@ -126,6 +128,7 @@ def byyear(item):
 
     return itemlist
 
+
 def nazione(item):
     itemlist = []
 
@@ -142,7 +145,7 @@ def nazione(item):
 
     for url, titulo in matches:
         scrapedtitle = titulo
-        scrapedtitle = scrapedtitle.replace(" ","")
+        scrapedtitle = scrapedtitle.replace(" ", "")
         scrapedurl = urlparse.urljoin(item.url, url)
         scrapedthumbnail = ""
         scrapedplot = ""
@@ -158,6 +161,7 @@ def nazione(item):
 
     return itemlist
 
+
 def search(item, texto):
     logger.info("[altadefinizioneone.py] " + item.url + " search " + texto)
     item.url = "%s/index.php?story=%s&do=search&subaction=search" % (host, texto)
@@ -169,6 +173,7 @@ def search(item, texto):
         for line in sys.exc_info():
             logger.error("%s" % line)
         return []
+
 
 def peliculas(item):
     logger.info("streamondemand.altadefinizioneone peliculas")
@@ -189,32 +194,33 @@ def peliculas(item):
             "title=[" + scrapedtitle + "], url=[" + scrapedurl + "], thumbnail=[" + scrapedthumbnail + "]")
         tmdbtitle1 = scrapedtitle.split("[")[0]
         tmdbtitle = tmdbtitle1.split("(")[0]
+        year = scrapertools.find_single_match(scrapedtitle, '\((\d+)\)')
         try:
-           plot, fanart, poster, extrameta = info(tmdbtitle)
+            plot, fanart, poster, extrameta = info(tmdbtitle, year)
 
-           itemlist.append(
-               Item(channel=__channel__,
-                    thumbnail=poster,
-                    fanart=fanart if fanart != "" else poster,
-                    extrameta=extrameta,
-                    plot=str(plot),
-                    action="findvideos",
-                    title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                    url=scrapedurl,
-                    fulltitle=scrapedtitle,
-                    show=scrapedtitle,
-                    folder=True))
+            itemlist.append(
+                Item(channel=__channel__,
+                     thumbnail=poster,
+                     fanart=fanart if fanart != "" else poster,
+                     extrameta=extrameta,
+                     plot=str(plot),
+                     action="findvideos",
+                     title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                     url=scrapedurl,
+                     fulltitle=scrapedtitle,
+                     show=scrapedtitle,
+                     folder=True))
         except:
-           itemlist.append(
-               Item(channel=__channel__,
-                    action="findvideos",
-                    fulltitle=scrapedtitle,
-                    show=scrapedtitle,
-                    title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                    url=scrapedurl,
-                    thumbnail=scrapedthumbnail,
-                    plot=scrapedplot,
-                    folder=True))
+            itemlist.append(
+                Item(channel=__channel__,
+                     action="findvideos",
+                     fulltitle=scrapedtitle,
+                     show=scrapedtitle,
+                     title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                     url=scrapedurl,
+                     thumbnail=scrapedthumbnail,
+                     plot=scrapedplot,
+                     folder=True))
 
     # Extrae el paginador
     patronvideos = '<a href="([^"]+)">Avanti'
@@ -237,15 +243,17 @@ def peliculas(item):
 
     return itemlist
 
+
 def HomePage(item):
     import xbmc
     xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.streamondemand)")
 
-def info(title):
+
+def info(title, year):
     logger.info("streamondemand.altadefinizioneone info")
     try:
         from core.tmdb import Tmdb
-        oTmdb = Tmdb(texto_buscado=title, tipo="movie", include_adult="false", idioma_busqueda="it")
+        oTmdb = Tmdb(texto_buscado=title, year=year, tipo="movie", include_adult="false", idioma_busqueda="it")
         if oTmdb.total_results > 0:
             extrameta = {"Year": oTmdb.result["release_date"][:4],
                          "Genre": ", ".join(oTmdb.result["genres"]),
@@ -256,4 +264,3 @@ def info(title):
             return plot, fanart, poster, extrameta
     except:
         pass
-
