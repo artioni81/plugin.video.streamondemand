@@ -6,7 +6,6 @@
 # ------------------------------------------------------------
 import os
 import re
-import sys
 import urllib
 import urlparse
 
@@ -58,6 +57,7 @@ def mainlist(item):
 
     return itemlist
 
+
 def categorias(item):
     logger.info("streamondemand.mondolunatico categorias")
     itemlist = []
@@ -72,33 +72,34 @@ def categorias(item):
     matches = re.compile(patron, re.DOTALL).findall(bloque)
 
     for scrapedurl, scrapedtitle in matches:
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("&nbsp;",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("(",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace(")",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("0",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("1",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("2",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("3",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("4",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("5",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("6",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("7",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("8",""))
-        scrapedtitle=scrapertools.decodeHtmlentities(scrapedtitle.replace("9",""))
-        scrapedurl= "http://mondolunatico.org/category/film-per-genere/"+scrapedtitle
+        scrapedtitle = scrapedtitle.replace("&nbsp;", "")
+        scrapedtitle = scrapedtitle.replace("(", "")
+        scrapedtitle = scrapedtitle.replace(")", "")
+        scrapedtitle = scrapedtitle.replace("0", "")
+        scrapedtitle = scrapedtitle.replace("1", "")
+        scrapedtitle = scrapedtitle.replace("2", "")
+        scrapedtitle = scrapedtitle.replace("3", "")
+        scrapedtitle = scrapedtitle.replace("4", "")
+        scrapedtitle = scrapedtitle.replace("5", "")
+        scrapedtitle = scrapedtitle.replace("6", "")
+        scrapedtitle = scrapedtitle.replace("7", "")
+        scrapedtitle = scrapedtitle.replace("8", "")
+        scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle.replace("9", ""))
+        scrapedurl = "http://mondolunatico.org/category/film-per-genere/" + scrapedtitle
         scrapedthumbnail = ""
         scrapedplot = ""
         if (DEBUG): logger.info(
-                "title=[" + scrapedtitle + "], url=[" + scrapedurl + "], thumbnail=[" + scrapedthumbnail + "]")
+            "title=[" + scrapedtitle + "], url=[" + scrapedurl + "], thumbnail=[" + scrapedthumbnail + "]")
         itemlist.append(
-                Item(channel=__channel__,
-                     action="peliculas",
-                     title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                     url=scrapedurl,
-                     thumbnail=scrapedthumbnail,
-                     plot=scrapedplot))
+            Item(channel=__channel__,
+                 action="peliculas",
+                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail=scrapedthumbnail,
+                 plot=scrapedplot))
 
     return itemlist
+
 
 def search(item, texto):
     logger.info("[mondolunatico.py] " + item.url + " search " + texto)
@@ -131,31 +132,31 @@ def peliculas(item):
         tmdbtitle = title.split("(")[0]
         year = scrapertools.find_single_match(title, '\((\d+)\)')
         try:
-           plot, fanart, poster, extrameta = info(tmdbtitle, year)
+            plot, fanart, poster, extrameta = info(tmdbtitle, year)
 
-           itemlist.append(
-               Item(channel=__channel__,
-                    thumbnail=poster,
-                    fanart=fanart if fanart != "" else poster,
-                    extrameta=extrameta,
-                    plot=str(plot),
-                    action="findvideos",
-                    title=title,
-                    url=scrapedurl,
-                    fulltitle=title,
-                    show=title,
-                    folder=True))
+            itemlist.append(
+                Item(channel=__channel__,
+                     thumbnail=poster,
+                     fanart=fanart if fanart != "" else poster,
+                     extrameta=extrameta,
+                     plot=str(plot),
+                     action="findvideos",
+                     title=title,
+                     url=scrapedurl,
+                     fulltitle=title,
+                     show=title,
+                     folder=True))
         except:
-           itemlist.append(
-               Item(channel=__channel__,
-                    action="findvideos",
-                    title=title,
-                    url=scrapedurl,
-                    thumbnail=scrapedthumbnail,
-                    fulltitle=title,
-                    show=title,
-                    plot=scrapedplot,
-                    folder=True))
+            itemlist.append(
+                Item(channel=__channel__,
+                     action="findvideos",
+                     title=title,
+                     url=scrapedurl,
+                     thumbnail=scrapedthumbnail,
+                     fulltitle=title,
+                     show=title,
+                     plot=scrapedplot,
+                     folder=True))
 
     # Extrae el paginador
     patronvideos = '<a class="nextpostslink" rel="next" href="([^"]+)">'
@@ -178,6 +179,7 @@ def peliculas(item):
 
     return itemlist
 
+
 def HomePage(item):
     import xbmc
     xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.streamondemand)")
@@ -186,8 +188,27 @@ def HomePage(item):
 def findvideos(item):
     logger.info("streamondemand.mondolunatico findvideos")
 
+    itemlist = []
+
     # Descarga la página
     data = scrapertools.cache_page(item.url, headers=headers)
+
+    # Extrae las entradas
+    patron = r'noshade>(.*?)<br>.*?<a href="(http://mondolunatico\.org/pass/index\.php\?ID=[^"]+)"'
+    matches = re.compile(patron, re.DOTALL).findall(data)
+    for scrapedtitle, scrapedurl in matches:
+        scrapedtitle = scrapedtitle.replace('*', '').replace('Streaming', '').strip()
+        title = '%s - [%s]' % (item.title, scrapedtitle)
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="play",
+                 title=title,
+                 url=scrapedurl,
+                 thumbnail=item.thumbnail,
+                 fulltitle=item.fulltitle,
+                 show=item.show,
+                 server='captcha',
+                 folder=False))
 
     ### robalo fix obfuscator - start ####
 
@@ -207,36 +228,19 @@ def findvideos(item):
             ['Connection', 'keep-alive']
         ]
 
-        data = scrapertools.cache_page( keeplinks + id, headers=_headers )
-        data = str( scrapertools.find_multiple_matches(data, '</lable><a href="([^"]+)" target="_blank"') )
+        data = scrapertools.cache_page(keeplinks + id, headers=_headers)
+        data = str(scrapertools.find_multiple_matches(data, '</lable><a href="([^"]+)" target="_blank"'))
 
     ### robalo fix obfuscator - end ####
 
-    itemlist = servertools.find_video_items(data=data)
-    for videoitem in itemlist:
+    for videoitem in servertools.find_video_items(data=data):
         videoitem.title = item.title + videoitem.title
         videoitem.fulltitle = item.fulltitle
         videoitem.thumbnail = item.thumbnail
         videoitem.show = item.show
         videoitem.plot = item.plot
         videoitem.channel = __channel__
-
-    # Extrae las entradas
-    patron = r'noshade>(.*?)<br>.*?<a href="(http://mondolunatico\.org/pass/index\.php\?ID=[^"]+)"'
-    matches = re.compile(patron, re.DOTALL).findall(data)
-    for scrapedtitle, scrapedurl in matches:
-        scrapedtitle = scrapedtitle.replace('*', '').replace('Streaming', '').strip()
-        title = '%s - [%s]' % (item.title, scrapedtitle)
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="play",
-                 title=title,
-                 url=scrapedurl,
-                 thumbnail=item.thumbnail,
-                 fulltitle=item.fulltitle,
-                 show=item.show,
-                 server='captcha',
-                 folder=False))
+        itemlist.append(videoitem)
 
     return itemlist
 
@@ -288,6 +292,7 @@ def play(item):
 
     return itemlist
 
+
 def info(title, year):
     logger.info("streamondemand.mondolunatico info")
     try:
@@ -303,5 +308,3 @@ def info(title, year):
             return plot, fanart, poster, extrameta
     except:
         pass
-
-
