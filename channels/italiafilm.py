@@ -23,6 +23,11 @@ DEBUG = config.get_setting("debug")
 
 host = "http://www.italia-film.co"
 
+headers = [
+    ['User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'],
+    ['Accept-Encoding', 'gzip, deflate']
+]
+
 
 def isGeneric():
     return True
@@ -342,6 +347,35 @@ def episodios(item):
                  action="download_all_episodes",
                  extra="episodios",
                  show=item.show))
+
+    return itemlist
+
+
+def findvideos(item):
+    logger.info("[italiafilm.py] findvideos")
+
+    # Descarga la pagina
+    data = scrapertools.cache_page(item.url)
+
+    itemlist = servertools.find_video_items(data=data)
+
+    url = scrapertools.find_single_match(data, '<iframe style="border: 0;" src="([^"]+)" width="[^"]*" height="[^"]*" scrolling="[^"]*" allowfullscreen="[^"]*"></iframe>')
+    if url:
+        headers.append(['Referer', item.url])
+        data = scrapertools.cache_page(url, headers=headers)
+        html = []
+        for num in scrapertools.find_multiple_matches(data, 'id="mlink_(\d+)"'):
+            html.append(scrapertools.cache_page(url + '?host=%s' % num, headers=headers))
+
+        itemlist.extend(servertools.find_video_items(data=''.join(html)))
+
+    for videoitem in itemlist:
+        videoitem.title = item.title + videoitem.title
+        videoitem.fulltitle = item.fulltitle
+        videoitem.thumbnail = item.thumbnail
+        videoitem.show = item.show
+        videoitem.plot = item.plot
+        videoitem.channel = __channel__
 
     return itemlist
 
