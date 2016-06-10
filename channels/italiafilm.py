@@ -386,7 +386,14 @@ def findvid_serie(item):
     # Descarga la pagina
     data = item.extra
 
-    itemlist = servertools.find_video_items(data=data)
+    html = [data]
+
+    headers.append(['Referer', item.url])
+    for url in scrapertools.find_multiple_matches(data, r'href="(http://hdlink\.[^?]+?)\?'):
+        for num in scrapertools.find_multiple_matches(scrapertools.cache_page(url, headers=headers), 'id="mlink_(\d+)"'):
+            html.append(scrapertools.cache_page(url + '?host=%s' % num, headers=headers))
+
+    itemlist = servertools.find_video_items(data=''.join(html))
     for videoitem in itemlist:
         videoitem.title = item.title + videoitem.title
         videoitem.fulltitle = item.fulltitle
