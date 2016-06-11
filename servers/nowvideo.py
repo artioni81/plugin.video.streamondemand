@@ -123,7 +123,8 @@ def find_videos(data):
 
     patronvideos = ['player3k.info/nowvideo/\?id\=([a-z0-9]+)',
                     'nowvideo.../(?:video/|embed\.php\?\S*v=)([A-Za-z0-9]+)',
-                    'nowvideo..../(?:video/|embed\.php\?\S*v=)([A-Za-z0-9]+)'
+                    'nowvideo..../(?:video/|embed\.php\?\S*v=)([A-Za-z0-9]+)',
+                    '0stream\.to/video/([A-Za-z0-9]+)'
                     ]
 
     for patron in patronvideos:
