@@ -45,15 +45,13 @@ def get_video_url(page_url, premium=False, user="", password="", video_password=
         # Se descodifican todos los script para dar con el correcto
         for text in text_encode:
             text_decode = decode(text)
-            if "#videooverlay" not in text_decode:
-                videourl = scrapertools.get_match(text_decode, "(http.*?true)")
+            videourl = scrapertools.find_single_match(text_decode, "(http.*?true)")
+            if videourl:
                 urls_check.append(videourl)
 
-        # Se busca la url que no se repite
-        index = [i for i, url in enumerate(urls_check) if urls_check.count(url) == 1][0]
-        videourl = urls_check[index]
+        videourl = urls_check[1]
 
-    subtitle = scrapertools.find_single_match(data, '<track kind="captions" src="([^"]+)" srclang="es"')
+    subtitle = scrapertools.find_single_match(data, '<track kind="captions" src="([^"]+)" srclang="it"')
     # Header para la descarga
     header_down = "|User-Agent=" + headers['User-Agent'] + "|"
     if video:
@@ -64,7 +62,7 @@ def get_video_url(page_url, premium=False, user="", password="", video_password=
     else:
         videourl = scrapertools.find_single_match(text_decode, '(http.*?)\}')
         videourl = videourl.replace("https://", "http://")
-        extension = videourl[-4:]
+        extension = '.mp4'
         video_urls.append([extension + " [Openload]", videourl + header_down + extension])
 
     for video_url in video_urls:
