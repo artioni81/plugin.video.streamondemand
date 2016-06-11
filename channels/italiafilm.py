@@ -307,13 +307,13 @@ def episodios(item):
 
     lang_titles = []
     starts = []
-    patron = r"STAGION[I|E].*?ITA"
+    patron = r"STAGION[I|E](.*?ITA)?"
     matches = re.compile(patron, re.IGNORECASE).finditer(data)
     for match in matches:
         season_title = match.group()
-        if season_title != '':
-            lang_titles.append('SUB ITA' if 'SUB' in season_title.upper() else 'ITA')
-            starts.append(match.end())
+#        if season_title != '':
+        lang_titles.append('SUB ITA' if 'SUB' in season_title.upper() else 'ITA')
+        starts.append(match.end())
 
     i = 1
     len_lang_titles = len(lang_titles)
