@@ -619,7 +619,7 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/italiafilm.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>18</version>
+    <version>19</version>
     <adult>false</adult>
     <date>26/04/2016</date>
     <changes>Search fix</changes>
