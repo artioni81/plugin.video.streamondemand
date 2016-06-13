@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
 # streamondemand.- XBMC Plugin
-# Canal para itastreaming.co 
+# Canal para itastreaming.click 
 # by SchisM
 # http://blog.tvalacarta.info/plugin-xbmc/streamondemand.
 # ------------------------------------------------------------
@@ -22,7 +22,7 @@ __type__ = "generic"
 __title__ = "Itastreaming"
 __language__ = "IT"
 
-host = "http://itastreaming.co"
+host = "http://itastreaming.click"
 
 headers = [
     ['User-Agent', 'Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0'],
@@ -64,7 +64,7 @@ def mainlist(item):
         Item(channel=__channel__,
              title="[COLOR azure]Film per Genere[/COLOR]",
              action="genere",
-             url=host + "/genere/",
+             url=host,
              thumbnail="http://xbmc-repo-ackbarr.googlecode.com/svn/trunk/dev/skin.cirrus%20extended%20v2/extras/moviegenres/All%20Movies%20by%20Genre.png"),
         Item(channel=__channel__,
              title="[COLOR azure]Film per Qualita'[/COLOR]",
@@ -123,7 +123,7 @@ def searchfilm(item):
     )
     # ------------------------------------------------
     cookies = ""
-    matches = re.compile('(.itastreaming.co.*?)\n', re.DOTALL).findall(config.get_cookie_data())
+    matches = re.compile('(.itastreaming.click.*?)\n', re.DOTALL).findall(config.get_cookie_data())
     for cookie in matches:
         name = cookie.split('\t')[5]
         value = cookie.split('\t')[6]
@@ -194,12 +194,10 @@ def genere(item):
     itemlist = []
 
     data = anti_cloudflare(item.url)
-    patron = '<a href="http://itastreaming.co/genere/">Genere</a>(.+?)</ul>'
+    patron = '<ul class="sub-menu">(.+?)</ul>'
     data = scrapertools.find_single_match(data, patron)
 
-    patron = '<li id=".*?'
-    patron += 'href="([^"]+)".*?'
-    patron += '>([^"]+)</a>'
+    patron = '<li[^>]+><a href="([^"]+)">(.*?)</a></li>'
 
     matches = re.compile(patron, re.DOTALL).findall(data)
     scrapertools.printMatches(matches)
@@ -291,7 +289,7 @@ def fichas(item):
     )
     # ------------------------------------------------
     cookies = ""
-    matches = re.compile('(.itastreaming.co.*?)\n', re.DOTALL).findall(config.get_cookie_data())
+    matches = re.compile('(.itastreaming.click.*?)\n', re.DOTALL).findall(config.get_cookie_data())
     for cookie in matches:
         name = cookie.split('\t')[5]
         value = cookie.split('\t')[6]
