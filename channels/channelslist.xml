@@ -658,10 +658,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/italiaserie.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>6</version>
+    <version>7</version>
     <adult>false</adult>
-    <date>09/04/2016</date>
-    <changes>Added TMDB</changes>
+    <date>14/06/2016</date>
+    <changes>some minor fixes</changes>
     <categories>
         <category>serie</category>
         <category>anime</category>
