@@ -21,7 +21,7 @@ __type__ = "generic"
 __title__ = "AltaDefinizioneclick"
 __language__ = "IT"
 
-host = "http://altadefinizione.online"
+host = "http://altadefinizione.site"
 
 headers = [
     ['User-Agent', 'Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0'],
@@ -88,10 +88,10 @@ def genere(item):
 
     data = anti_cloudflare(item.url)
 
-    patron = '<option value="%s">Seleziona Categoria Film</option>(.*?)</form>' % host
+    patron = '<ul class="listSubCat" id="Film">(.*?)</ul>'
     data = scrapertools.find_single_match(data, patron)
 
-    patron = '<option value="([^"]+)">(.*?)</option>'
+    patron = '<li><a href="(.*?)">(.*?)</a></li>'
     matches = re.compile(patron, re.DOTALL).findall(data)
     scrapertools.printMatches(matches)
 
@@ -151,7 +151,7 @@ def fichas(item):
     )
     # ------------------------------------------------
     cookies = ""
-    matches = re.compile('(.altadefinizione.online.*?)\n', re.DOTALL).findall(config.get_cookie_data())
+    matches = re.compile('(.altadefinizione.site.*?)\n', re.DOTALL).findall(config.get_cookie_data())
     for cookie in matches:
         name = cookie.split('\t')[5]
         value = cookie.split('\t')[6]

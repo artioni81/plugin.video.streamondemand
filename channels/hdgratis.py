@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
 # streamondemand.- XBMC Plugin
-# Sito hdgratis.net  by SchisM
+# Sito hdgratis.org  by SchisM
 # http://blog.tvalacarta.info/plugin-xbmc/streamondemand.
 # ------------------------------------------------------------
 import re
@@ -22,7 +22,7 @@ __type__ = "generic"
 __title__ = "HDGratis"
 __language__ = "IT"
 
-host = "http://hdgratis.net"
+host = "http://hdgratis.org"
 
 headers = [
     ['User-Agent', 'Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0'],
@@ -93,14 +93,14 @@ def genere(item):
 
     data = anti_cloudflare(item.url)
 
-    #patron = '<a href="http://hdgratis.net/film/">Film</a>(.+?)</ul>'
-    patron = '<li class="cat-item cat-item.*?"><a href="([^"]+)">([^"]+)</a>.*?</li>'
+    patron = '<ul>(.+?)</ul>'
+    #patron = '<li class="cat-item cat-item.*?"><a href="([^"]+)">([^"]+)</a>.*?</li>'
 
-    #data = scrapertools.find_single_match(data, patron)
+    data = scrapertools.find_single_match(data, patron)
     
-    #patron = '<li class=".*?'
-    #patron += 'href="([^"]+)".*?'
-    #patron += '>([^"]+)</a>'
+    patron = '<li class=".*?'
+    patron += 'href="([^"]+)".*?'
+    patron += '>([^"]+)</a>'
     
     matches = re.compile(patron, re.DOTALL).findall(data)
     scrapertools.printMatches(matches)
@@ -128,7 +128,7 @@ def getsearch(item):
 
     # ------------------------------------------------
     cookies = ""
-    matches = re.compile('(.italiafilm.video.*?)\n', re.DOTALL).findall(config.get_cookie_data())
+    matches = re.compile('(.hdgratis.org.*?)\n', re.DOTALL).findall(config.get_cookie_data())
     for cookie in matches:
         name = cookie.split('\t')[5]
         value = cookie.split('\t')[6]
@@ -209,7 +209,7 @@ def fichas(item):
 
     # ------------------------------------------------
     cookies = ""
-    matches = re.compile('(.italiafilm.video.*?)\n', re.DOTALL).findall(config.get_cookie_data())
+    matches = re.compile('(.hdgratis.org.*?)\n', re.DOTALL).findall(config.get_cookie_data())
     for cookie in matches:
         name = cookie.split('\t')[5]
         value = cookie.split('\t')[6]
