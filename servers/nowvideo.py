@@ -15,7 +15,8 @@ from core import logger
 from core import scrapertools
 
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:20.0) Gecko/20100101 Firefox/20.0"
-host='http://www.nowvideo.li'
+host = 'http://www.nowvideo.li'
+
 
 def test_video_exists(page_url):
     logger.info("[nowvideo.py] test_video_exists(page_url='%s')" % page_url)
@@ -71,33 +72,18 @@ def get_video_url(page_url, premium=False, user="", password="", video_password=
         flashvar_type = scrapertools.find_single_match(data, 'flashvars.type="([^"]+)"')
 
         # http://www.nowvideo.eu/api/player.api.php?user=aaa&file=rxnwy9ku2nwx7&pass=bbb&cid=1&cid2=undefined&key=83%2E46%2E246%2E226%2Dc7e707c6e20a730c563e349d2333e788&cid3=undefined
-        url = host +"/api/player.api.php?user=" + flashvar_user + "&file=" + flashvar_file + "&pass=" + flashvar_key + "&cid=1&cid2=undefined&key=" + flashvar_filekey.replace(
+        url = host + "/api/player.api.php?user=" + flashvar_user + "&file=" + flashvar_file + "&pass=" + flashvar_key + "&cid=1&cid2=undefined&key=" + flashvar_filekey.replace(
             ".", "%2E").replace("-", "%2D") + "&cid3=undefined"
         data = scrapertools.cache_page(url)
         logger.info("data=" + data)
 
-        location = scrapertools.find_single_match(data, 'url=([^\&]+)&')
+        location = scrapertools.find_single_match(data, 'url=([^&]+)&')
         location += "?client=FLASH"
 
         video_urls.append([scrapertools.get_filename_from_url(location)[-4:] + " [premium][nowvideo]", location])
 
     else:
-        # ----------------------------------------------------------------------------------
-        # Mod Costaplus
-        # ==================================================================================
         data = scrapertools.cache_page(page_url)
-        '''
-        <form method="post" action="">
-        <input type="hidden" name="stepkey" value="c906db305ed9d5a2990837c49dcc2df9"><Br>
-        <button type="submit" name="submit" onclick="lads();" class="btn" value="submit">Continue to the video</button>
-        '''
-        valuekey = scrapertools.find_single_match(data,'<.*?name="stepkey"[^=]+="(.*?)">')  # <- estrapolo la key nel campo nascosto hidden
-        headers = [["User-Agent", USER_AGENT],["Referer", page_url]]                        # <- Creo l'intestazione potrebbe anche non servire
-        post = "stepkey=%s&submit=submit" % valuekey                                        # <- Genero la stringa per la chiamata post
-        data = scrapertools.cache_page(page_url, post=post)                                 # <- Chiamata post
-        # ===================================================================================
-        # Fine mod
-        # ===================================================================================
 
         video_id = scrapertools.find_single_match(data, 'flashvars\.file\s*=\s*"([^"]+)')
         flashvar_filekey = scrapertools.find_single_match(data, 'flashvars\.file[_]*key\s*=\s*([^;]+)')
@@ -105,23 +91,23 @@ def get_video_url(page_url, premium=False, user="", password="", video_password=
         filekey = filekey.replace(".", "%2E").replace("-", "%2D")
 
         # get stream url from api
-        url = '%s/api/player.api.php?key=%s&file=%s' % (host,filekey, video_id)
+        url = '%s/api/player.api.php?key=%s&file=%s' % (host, filekey, video_id)
         data = scrapertools.cache_page(url)
 
-        data = scrapertools.find_single_match(data, 'url=([^&]+)')
+        data = scrapertools.find_single_match(data, 'url=([^&]+)&')
 
         res = scrapertools.get_header_from_response(url, header_to_get="content-type")
         if res == "text/html":
             data = urllib.quote_plus(data).replace(".", "%2E")
             url = '%s/api/player.api.php?cid3=undefined&numOfErrors=1&user=undefined&errorUrl=%s&pass=undefined&errorCode=404&cid=1&cid2=undefined&file=%s&key=%s' % (
-                host,data, video_id, filekey)
+                host, data, video_id, filekey)
             data = scrapertools.cache_page(url)
             try:
-                data = scrapertools.find_single_match(data, 'url=([^&]+)')
+                data = scrapertools.find_single_match(data, 'url=([^&]+)&')
             except:
-                url = '%s/api/player.api.php?key=%s&file=%s' % (host,filekey, video_id)
+                url = '%s/api/player.api.php?key=%s&file=%s' % (host, filekey, video_id)
                 data = scrapertools.cache_page(url)
-                data = scrapertools.find_single_match(data, 'url=([^&]+)')
+                data = scrapertools.find_single_match(data, 'url=([^&]+)&')
 
         media_url = data
 
@@ -134,13 +120,11 @@ def get_video_url(page_url, premium=False, user="", password="", video_password=
 def find_videos(data):
     encontrados = set()
     devuelve = []
-    
-    #Aggiunta Patron costaplus
+
     patronvideos = ['player3k.info/nowvideo/\?id\=([a-z0-9]+)',
                     'nowvideo.../(?:video/|embed\.php\?\S*v=)([A-Za-z0-9]+)',
                     'nowvideo..../(?:video/|embed\.php\?\S*v=)([A-Za-z0-9]+)',
-                    '0stream\.to/video/([A-Za-z0-9]+)',
-                    'nowvideo.li/(?:video/)([A-Za-z0-9]+)'
+                    '0stream\.to/video/([A-Za-z0-9]+)'
                     ]
 
     for patron in patronvideos:
@@ -149,14 +133,7 @@ def find_videos(data):
 
         for match in matches:
             titulo = "[nowvideo]"
-            # url = "http://embed.nowvideo.sx/embed.php?v=%s" % match
-            # ----------------------------------------------------------------------------------
-            # Mod Costaplus
-            # ==================================================================================
-            url = "http://www.nowvideo.li/video/%s" % match
-            # ----------------------------------------------------------------------------------
-            # fine Mod
-            # ==================================================================================
+            url = "http://embed.nowvideo.li/embed.php?v=%s" % match
             if url not in encontrados:
                 logger.info("  url=" + url)
                 devuelve.append([titulo, url, 'nowvideo'])
@@ -165,4 +142,3 @@ def find_videos(data):
                 logger.info("  url duplicada=" + url)
 
     return devuelve
-
