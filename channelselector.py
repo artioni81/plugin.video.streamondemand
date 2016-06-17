@@ -273,6 +273,7 @@ def channels_list():
     #itemlist.append( Item( title="[COLOR azure]Fastvideo.tv[/COLOR]"        , channel="fastvideotv"       , language="IT"    , category="F"       , type="generic"))
     #itemlist.append( Item( title="[COLOR azure]Fastvideo.tv[/COLOR]"        , channel="filmitaliatv"       , language="IT"    , category="F"       , type="generic", thumbnail="http://www.fastvideo.tv/wp-content/uploads/2015/12/film-italia-t-e1449670957254.png"))
     #itemlist.append( Item( title="[COLOR azure]FilmGratis.cc[/COLOR]"       , channel="filmgratiscc"           , language="IT"    , category="F"   , type="generic"))
+    itemlist.append( Item( title="[COLOR azure]Filmbelli.net[/COLOR]"          , channel="filmbelli"           , language="IT"    , category="F"   , type="generic", thumbnail="http://www.filmbelli.net/wp-content/themes/FilmBelli/images/logo.png"))
     itemlist.append( Item( title="[COLOR azure]FilmStream.org[/COLOR]"          , channel="filmstream"           , language="IT"    , category="F,S"   , type="generic"))
     itemlist.append( Item( title="[COLOR azure]FilmStream.to[/COLOR]"       , channel="filmstreampw"           , language="IT"    , category="F,S"   , type="generic"))
     itemlist.append( Item( title="[COLOR azure]Film per tutti[/COLOR]"      , channel="filmpertutti"           , language="IT"    , category="B,F,S,A"    , type="generic"     ))
