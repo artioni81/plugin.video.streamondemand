@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
 # streamondemand.- XBMC Plugin
-# Canal para itafilmtv
+# Canal para animestream.it
 # http://blog.tvalacarta.info/plugin-xbmc/streamondemand.
 #  By Costaplus
 # ------------------------------------------------------------
@@ -137,6 +137,26 @@ def episodi(item):
         if DEBUG: logger.info("scrapedurl: " + scrapedurl +  " scrapedthumbnail: " + scrapedthumbnail + " scrapedtitle:" + scrapedtitle)
 
         itemlist.append(Item(channel=__channel__, action="player", title=scrapedtitle, url=scrapedurl,thumbnail=host + scrapedthumbnail, fulltitle=scrapedtitle, show=scrapedtitle,fanart=host + scrapedthumbnail))
+
+    # Voci di selezione per "Torna Home" e per la pagina agli episodi successivi:
+    data= scrapertools.cache_page(host+item.url)
+    patronvideos = '<a id="nav" href="([^"]+)">></a>'
+    matches = re.compile(patronvideos, re.DOTALL).findall(data)
+
+    if len(matches) > 0:
+        scrapedurl = urlparse.urljoin(item.url, matches[0])
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="HomePage",
+                 title="[COLOR yellow]Torna Home[/COLOR]",
+                 folder=True)),
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="episodi",
+                 title="[COLOR orange]Successivo >>[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",
+                 folder=True))
 
     return itemlist
 #=================================================================
