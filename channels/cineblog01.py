@@ -27,8 +27,7 @@ sitoanime = "http://www.cineblog01.cc"
 headers = [
     ['User-Agent', 'Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0'],
     ['Accept-Encoding', 'gzip, deflate'],
-    ['Referer', sito],
-    ['Connection', 'keep-alive']
+    ['Referer', sito]
 ]
 
 DEBUG = config.get_setting("debug")
@@ -693,7 +692,6 @@ def listanime(item):
                  url=scrapedurl,
                  thumbnail=scrapedthumbnail,
                  viewmode="movie_with_plot",
-                 fanart=scrapedthumbnail,
                  plot=scrapedplot))
 
     # Put the next page mark
