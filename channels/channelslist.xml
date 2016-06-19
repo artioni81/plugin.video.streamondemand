@@ -64,10 +64,10 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/animestream.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>1</version>
+    <version>2</version>
     <adult>false</adult>
-    <date>27/05/2016</date>
-    <changes>First release of this channel by costaplus</changes>
+    <date>20/06/2016</date>
+    <changes>v1: First release of this channel by costaplus - v2: fix "next page"</changes>
     <categories>
         <category>anime</category>
     </categories>
