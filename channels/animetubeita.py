@@ -6,14 +6,11 @@
 #  By Costaplus
 # ------------------------------------------------------------
 import re
-import sys
-import urlparse
-import urllib2
+
 from core import config
 from core import logger
 from core import scrapertools
 from core.item import Item
-from servers import servertools
 
 __channel__ = "animetubeita"
 __category__ = "F"
@@ -95,8 +92,7 @@ def dettaglio(item):
 
     itemlist =[]
     episodio=1
-    patron='<tr[^<]+<[^<]+<strong>(.*?)</strong></td>[^<]+<[^<]+<.*?href="http://adf.ly.*?http://(.*?)"'
-    #patron = '<tr[^<]+<[^<]+<strong>(.*?)</strong></td>[^<]+<[^<]+<[^<]+<img[^<]+<[^<]+[^>]+>[^<]+<td[^<]+<a href="http.*?http://(.*?)"[^<]+<img[^<]+</a></td>[^<]+</tr>'
+    patron='<tr[^<]+?<[^<]+?<strong>(.*?)</strong></td>[^<]+?<[^<]+?<.*?href="http://.*?http://([^"]+?)"'
     scrapedAll(item.url, patron)
     for scrapedtitle,scrapedurl in scrapedAll(item.url, patron):
         title= "Episodio "+ str(episodio)
