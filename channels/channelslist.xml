@@ -80,7 +80,7 @@
     <update_url>https://raw.githubusercontent.com/Zanzibar82/plugin.video.streamondemand/master/channels/animetubeita.py</update_url>
     <active>true</active>
     <include_in_global_search>true</include_in_global_search>
-    <version>1</version>
+    <version>2</version>
     <adult>false</adult>
     <date>08/06/2016</date>
     <changes>new anime channel by Costaplus</changes>
