@@ -5,11 +5,9 @@
 # http://blog.tvalacarta.info/plugin-xbmc/streamondemand.
 # ------------------------------------------------------------
 import re
-import urllib
-import urllib2
-import urlparse
-
 import time
+import urllib
+import urlparse
 
 from core import config
 from core import logger
@@ -25,7 +23,7 @@ __language__ = "IT"
 
 DEBUG = config.get_setting("debug")
 
-host = "http://www.portalehd.com"
+host = "http://www.24hd.online"
 
 headers = [
     ['User-Agent', 'Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0'],
@@ -46,20 +44,10 @@ def mainlist(item):
                      url=host,
                      thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
                 Item(channel=__channel__,
-                     title="[COLOR azure]Film HD[/COLOR]",
-                     action="peliculas",
-                     url="%s/category/film-hd/" % host,
-                     thumbnail="http://i.imgur.com/3ED6lOP.png"),
-                Item(channel=__channel__,
                      title="[COLOR azure]Categorie[/COLOR]",
                      action="categorias",
                      url=host,
                      thumbnail="http://xbmc-repo-ackbarr.googlecode.com/svn/trunk/dev/skin.cirrus%20extended%20v2/extras/moviegenres/All%20Movies%20by%20Genre.png"),
-                Item(channel=__channel__,
-                     title="[COLOR azure]Film 3D HD[/COLOR]",
-                     action="peliculas",
-                     url="%s/category/3d/" % host,
-                     thumbnail="http://i.imgur.com/wXMmQie.png"),
                 Item(channel=__channel__,
                      title="[COLOR yellow]Cerca...[/COLOR]",
                      action="search",
@@ -121,7 +109,7 @@ def peliculas(item):
 
     # ------------------------------------------------
     cookies = ""
-    matches = re.compile('(.portalehd.net.*?)\n', re.DOTALL).findall(config.get_cookie_data())
+    matches = re.compile('(.24hd.online.*?)\n', re.DOTALL).findall(config.get_cookie_data())
     for cookie in matches:
         name = cookie.split('\t')[5]
         value = cookie.split('\t')[6]
@@ -131,14 +119,10 @@ def peliculas(item):
     # ------------------------------------------------
 
     # Extrae las entradas (carpetas)
-    patron = '<div class="ThreeTablo T-FilmBaslik">\s*'
-    patron += '<h2><a href="([^"]+)" title="([^"]+)">.*?</h2>\s*'
-    patron += '</div>\s*'
-    patron += '<a[^>]+>\s*'
-    patron += '<figure><img src="([^"]+)"[^>]+>'
+    patron = '<li><img src=".*?src="([^"]+)".*?<a href="([^"]+)".*?class="title">([^<]+)</a>.*?</li>'
     matches = re.compile(patron, re.DOTALL).findall(data)
 
-    for scrapedurl, scrapedtitle, scrapedthumbnail in matches:
+    for scrapedthumbnail, scrapedurl, scrapedtitle in matches:
         scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
         scrapedplot = ""
         # ------------------------------------------------
@@ -216,24 +200,48 @@ def findvideos(item):
     return itemlist
 
 
-def anti_cloudflare(url):
-    # global headers
-
+def parseJSString(s):
     try:
-        resp_headers = scrapertools.get_headers_from_response(url, headers=headers)
-        resp_headers = dict(resp_headers)
-    except urllib2.HTTPError, e:
-        resp_headers = e.headers
+        offset = 1 if s[0] == '+' else 0
+        val = int(eval(s.replace('!+[]', '1').replace('!![]', '1').replace('[]', '0').replace('(', 'str(')[offset:]))
+        return val
+    except:
+        pass
 
-    if 'refresh' in resp_headers:
-        time.sleep(int(resp_headers['refresh'][:1]))
+
+def anti_cloudflare(url):
+    result = scrapertools.cache_page(url, headers=headers)
+    try:
+        jschl = re.compile('name="jschl_vc" value="(.+?)"/>').findall(result)[0]
+        init = re.compile('setTimeout\(function\(\){\s*.*?.*:(.*?)};').findall(result)[0]
+        builder = re.compile(r"challenge-form\'\);\s*(.*)a.v").findall(result)[0]
+        decrypt_val = parseJSString(init)
+        lines = builder.split(';')
+
+        for line in lines:
+            if len(line) > 0 and '=' in line:
+                sections = line.split('=')
+                line_val = parseJSString(sections[1])
+                decrypt_val = int(eval(str(decrypt_val) + sections[0][-1] + str(line_val)))
 
         urlsplit = urlparse.urlsplit(url)
         h = urlsplit.netloc
         s = urlsplit.scheme
-        scrapertools.get_headers_from_response(s + '://' + h + "/" + resp_headers['refresh'][7:], headers=headers)
 
-    return scrapertools.cache_page(url, headers=headers)
+        answer = decrypt_val + len(h)
+
+        query = '%s/cdn-cgi/l/chk_jschl?jschl_vc=%s&jschl_answer=%s' % (url, jschl, answer)
+
+        if 'type="hidden" name="pass"' in result:
+            passval = re.compile('name="pass" value="(.*?)"').findall(result)[0]
+            query = '%s/cdn-cgi/l/chk_jschl?pass=%s&jschl_vc=%s&jschl_answer=%s' % (
+            s + '://' + h, urllib.quote_plus(passval), jschl, answer)
+            time.sleep(5)
+
+        scrapertools.get_headers_from_response(query, headers=headers)
+        return scrapertools.cache_page(url, headers=headers)
+    except:
+        return result
 
 
 def HomePage(item):
