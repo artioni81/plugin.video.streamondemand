@@ -300,7 +300,7 @@ def episodios(item):
                      fulltitle=item.fulltitle,
                      show=item.show,
                      title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                     url=url,
+                     url=scrapedurl,
                      thumbnail=item.thumbnail,
                      plot=item.plot,
                      folder=True))
