@@ -4,6 +4,7 @@
 # Canal para seriehd - based on guardaserie channel
 # http://blog.tvalacarta.info/plugin-xbmc/streamondemand.
 # ------------------------------------------------------------
+import base64
 import re
 import time
 import urllib
@@ -230,36 +231,36 @@ def findvideos(item):
     patron = '<iframe id="iframeVid" width=".+?" height=".+?" src="([^"]+)" allowfullscreen="">'
     url = scrapertools.find_single_match(data, patron)
 
-    if 'hdpass.xyz' in url:
+    if 'hdpass' in url:
         data = scrapertools.cache_page(url, headers=headers).replace('\n', '').replace('> <', '><')
 
-        patron = '<form method="get" action="">'
-        patron += '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
-        patron += '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
-        patron += '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
-        patron += '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
-        patron += '<input type="submit" class="[^"]*" name="([^"]*)" value="([^"]*)"/>'
-        patron += '</form>'
+        # patron = '<form method="get" action="">'
+        # patron += '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
+        # patron += '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
+        # patron += '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
+        # patron += '<input type="hidden" name="([^"]*)" value="([^"]*)"/>'
+        # patron += '<input type="submit" class="[^"]*" name="([^"]*)" value="([^"]*)"/>'
+        # patron += '</form>'
+        #
+        # for name1, val1, name2, val2, name3, val3, name4, val4, name5, val5 in re.compile(patron).findall(data):
+        #
+        #     get_data = '%s=%s&%s=%s&%s=%s&%s=%s&%s=%s' % (
+        #         name1, val1, name2, val2, name3, val3, name4, val4, name5, val5)
+        #
+        #     tmp_data = scrapertools.cache_page('http://hdpass.xyz/film.php?' + get_data, headers=headers)
 
-        for name1, val1, name2, val2, name3, val3, name4, val4, name5, val5 in re.compile(patron).findall(data):
+        patron = r'<input type="hidden" name="urlEmbed" data-mirror="([^"]+)" id="urlEmbed" value="([^"]+)"/>'
 
-            get_data = '%s=%s&%s=%s&%s=%s&%s=%s&%s=%s' % (
-                name1, val1, name2, val2, name3, val3, name4, val4, name5, val5)
+        for media_label, media_url in re.compile(patron).findall(data):
+            media_label = scrapertools.decodeHtmlentities(media_label.replace("hosting", "hdload"))
 
-            tmp_data = scrapertools.cache_page('http://hdpass.xyz/film.php?' + get_data, headers=headers)
-
-            patron = r'<input type="hidden" name="urlEmbed" data-mirror="([^"]+)" id="urlEmbed" value="([^"]+)"/>'
-
-            for media_label, media_url in re.compile(patron).findall(tmp_data):
-                media_label = scrapertools.decodeHtmlentities(media_label.replace("hosting", "hdload"))
-
-                itemlist.append(
-                    Item(channel=__channel__,
-                         server=media_label,
-                         action="play",
-                         title=' - [Player]' if media_label == '' else ' - [Player @%s]' % media_label,
-                         url=media_url,
-                         folder=False))
+            itemlist.append(
+                Item(channel=__channel__,
+                     server=media_label,
+                     action="play",
+                     title=' - [Player]' if media_label == '' else ' - [Player @%s]' % media_label,
+                     url=url_decode(media_url),
+                     folder=False))
 
     return itemlist
 
@@ -307,14 +308,27 @@ def anti_cloudflare(url):
         return result
 
 
-def unescape(par1, par2, par3):
-    var1 = par1
-    for ii in xrange(0, len(par2)):
-        var1 = re.sub(par2[ii], par3[ii], var1)
+def url_decode(url_enc):
+    lenght = len(url_enc)
+    if lenght % 2 == 0:
+        len2 = lenght / 2
+        first = url_enc[0:len2]
+        last = url_enc[len2:lenght]
+        url_enc = last + first
+        reverse = url_enc[::-1]
+        return base64.b64decode(reverse)
 
-    var1 = re.sub("%26", "&", var1)
-    var1 = re.sub("%3B", ";", var1)
-    return var1.replace('<!--?--><?', '<!--?-->')
+    last_car = url_enc[lenght - 1]
+    url_enc[lenght - 1] = ' '
+    url_enc = url_enc.strip()
+    len1 = len(url_enc)
+    len2 = len1 / 2
+    first = url_enc[0:len2]
+    last = url_enc[len2:len1]
+    url_enc = last + first
+    reverse = url_enc[::-1]
+    reverse = reverse + last_car
+    return base64.b64decode(reverse)
 
 
 def info(title):
